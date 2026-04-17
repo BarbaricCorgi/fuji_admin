@@ -1,0 +1,111 @@
+// 12-column flex grid with responsive modifiers.
+//
+// Prefixed `fuji-` so it never collides with ActiveAdmin's own `.columns` /
+// `.column` classes. ActiveAdmin-specific columns will be styled separately
+// in components/_columns.scss.
+//
+// Markup:
+//   <div class="fuji-row">
+//     <div class="fuji-col-12 fuji-col-md-6 fuji-col-lg-4">...</div>
+//     <div class="fuji-col-12 fuji-col-md-6 fuji-col-lg-8">...</div>
+//   </div>
+//
+// Semantics:
+//   fuji-col        — equal-width flex child
+//   fuji-col-auto   — shrink to content
+//   fuji-col-N      — N/12 width at all breakpoints (N = 1..12)
+//   fuji-col-{bp}-N — N/12 width from breakpoint `bp` upwards (sm/md/lg/xl/xxl)
+
+$grid-columns: 12;
+
+.fuji-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -#{$grid-gutter-sm / 2};
+  margin-left:  -#{$grid-gutter-sm / 2};
+
+  @include media-up(md) {
+    margin-right: -#{$grid-gutter / 2};
+    margin-left:  -#{$grid-gutter / 2};
+  }
+
+  > [class*="fuji-col"] {
+    padding-right: #{$grid-gutter-sm / 2};
+    padding-left:  #{$grid-gutter-sm / 2};
+    box-sizing: border-box;
+
+    @include media-up(md) {
+      padding-right: #{$grid-gutter / 2};
+      padding-left:  #{$grid-gutter / 2};
+    }
+  }
+}
+
+// Base equal-width column
+.fuji-col {
+  flex: 1 0 0;
+  max-width: 100%;
+}
+
+// Shrink-to-content
+.fuji-col-auto {
+  flex: 0 0 auto;
+  width: auto;
+  max-width: 100%;
+}
+
+// Helper to emit a width rule
+@mixin fuji-col-width($n) {
+  flex: 0 0 percentage($n / $grid-columns);
+  max-width: percentage($n / $grid-columns);
+}
+
+// Unqualified (all breakpoints) columns: fuji-col-1 … fuji-col-12
+@for $i from 1 through $grid-columns {
+  .fuji-col-#{$i} {
+    @include fuji-col-width($i);
+  }
+}
+
+// Responsive columns: fuji-col-sm-1 … fuji-col-xxl-12
+@each $bp-name, $bp-value in $breakpoints {
+  @include media-up($bp-name) {
+    .fuji-col-#{$bp-name} {
+      flex: 1 0 0;
+      max-width: 100%;
+    }
+    .fuji-col-#{$bp-name}-auto {
+      flex: 0 0 auto;
+      width: auto;
+      max-width: 100%;
+    }
+    @for $i from 1 through $grid-columns {
+      .fuji-col-#{$bp-name}-#{$i} {
+        @include fuji-col-width($i);
+      }
+    }
+  }
+}
+
+// Container helpers — centered max-width at each breakpoint
+.fuji-container {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: $space-4;
+  padding-left:  $space-4;
+
+  @each $bp-name, $max-width in $container-max-widths {
+    @include media-up($bp-name) {
+      max-width: $max-width;
+    }
+  }
+}
+
+.fuji-container-fluid {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: $space-4;
+  padding-left:  $space-4;
+}

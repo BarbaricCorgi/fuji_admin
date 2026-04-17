@@ -1,0 +1,23 @@
+// Fuji Admin — MVP theme
+//
+// Build order:
+//   1. tokens (variables/)        ← done
+//   2. mixins/                    ← done (media queries)
+//   3. reset + base typography    ← done
+//   4. grid / columns             ← done
+//   5. layout chrome              ← done
+//   6. components                 ← done
+//   7. page-specific styling      ← done
+
+@import url("https://fonts.googleapis.com/css2?family=Saira:wght@300;400;500;600;700&display=swap");
+
+@import "variables/variables";
+@import "mixins/mixins";
+
+@import "reset";
+@import "base_typography";
+@import "grid";
+
+@import "layouts/layouts";
+@import "components/components";
+@import "pages/pages";

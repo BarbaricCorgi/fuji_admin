@@ -1,0 +1,28 @@
+// Body + #wrapper. Offsets account for fixed header/sidebar so content
+// never flows under them.
+
+body.active_admin {
+  background-color: $body-background;
+}
+
+body.active_admin.logged_in {
+  padding-top: $header-height-mobile;
+
+  @include media-up(md) {
+    padding-top: $header-height;
+  }
+
+  @include media-up(lg) {
+    padding-left: $sidebar-width;
+  }
+}
+
+#wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - #{$header-height-mobile});
+
+  @include media-up(md) {
+    min-height: calc(100vh - #{$header-height});
+  }
+}

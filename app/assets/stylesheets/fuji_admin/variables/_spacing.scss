@@ -1,0 +1,20 @@
+// Spacing scale — 4px base. Use these named tokens rather than raw numbers
+// so rhythm stays consistent across the theme.
+
+$space-0:  0;
+$space-1:  0.25rem;   //  4px
+$space-2:  0.5rem;    //  8px
+$space-3:  0.75rem;   // 12px
+$space-4:  1rem;      // 16px
+$space-5:  1.25rem;   // 20px
+$space-6:  1.5rem;    // 24px
+$space-7:  2rem;      // 32px
+$space-8:  2.5rem;    // 40px
+$space-9:  3rem;      // 48px
+$space-10: 4rem;      // 64px
+
+$inline-spacing: $space-2 !default;  // default inline element gap
+
+// Grid gutters
+$grid-gutter:    $space-6 !default;  // 24px between cols on desktop
+$grid-gutter-sm: $space-4 !default;  // 16px on small screens

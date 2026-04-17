@@ -1,0 +1,55 @@
+// Flash messages — rendered by AA as `<div class="flashes"><div class="flash flash_notice">...</div></div>`.
+// Shown at the top of the main content area.
+
+// `.flashes` lives in #wrapper as a sibling of #title_bar / #active_admin_content.
+// Since those siblings supply their own horizontal padding, we repeat the same
+// values here so a flash message sits in the same visual gutter.
+.flashes {
+  display: flex;
+  flex-direction: column;
+  gap: $space-2;
+  padding: $space-4 $content-padding-mobile 0;
+  margin: 0;
+
+  @include media-up(md) {
+    padding: $space-4 $content-padding 0;
+  }
+
+  &:empty {
+    display: none; // avoid reserving space when no flash present
+  }
+}
+
+.flash {
+  padding: $space-3 $space-4;
+  border-radius: $border-radius;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  border: 1px solid transparent;
+
+  &.flash_notice,
+  &.flash_success {
+    background-color: rgba($color-success, 0.1);
+    border-color: rgba($color-success, 0.3);
+    color: darken($color-success, 12%);
+  }
+
+  &.flash_alert,
+  &.flash_error {
+    background-color: rgba($color-danger, 0.1);
+    border-color: rgba($color-danger, 0.3);
+    color: darken($color-danger, 8%);
+  }
+
+  &.flash_warning {
+    background-color: rgba($color-warning, 0.12);
+    border-color: rgba($color-warning, 0.3);
+    color: darken($color-warning, 14%);
+  }
+
+  &.flash_info {
+    background-color: rgba($color-info, 0.1);
+    border-color: rgba($color-info, 0.3);
+    color: darken($color-info, 10%);
+  }
+}

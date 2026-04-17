@@ -1,0 +1,70 @@
+// Pagination — AA uses kaminari, rendered as a `.pagination` div containing
+// `<span>` wrappers around `<a>` links, plus `span.page.current`.
+
+.pagination {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-1;
+  align-items: center;
+  padding: $space-4 0 0;
+  font-size: $font-size-sm;
+
+  > span,
+  > a,
+  > em {
+    display: inline-flex;
+  }
+
+  a,
+  span.page.current,
+  span.current,
+  .first a,
+  .last a,
+  .prev a,
+  .next a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 32px;
+    padding: 0 $space-3;
+    border: 1px solid $surface-border;
+    border-radius: $border-radius;
+    color: $text-color-secondary;
+    background-color: $surface-0;
+    text-decoration: none;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+
+    &:hover {
+      background-color: $surface-100;
+      border-color: $surface-400;
+      color: $text-color;
+      text-decoration: none;
+    }
+  }
+
+  span.page.current,
+  span.current {
+    background-color: $primary-color;
+    border-color: $primary-color;
+    color: $primary-color-text;
+
+    &:hover {
+      background-color: $primary-700;
+      border-color: $primary-700;
+      color: $primary-color-text;
+    }
+  }
+
+  .gap {
+    padding: 0 $space-2;
+    color: $text-color-muted;
+  }
+}
+
+// Pagination summary text ("Displaying 1 - 30 of 521")
+.pagination_information {
+  padding: $space-3 0 0;
+  color: $text-color-muted;
+  font-size: $font-size-sm;
+}

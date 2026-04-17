@@ -1,0 +1,44 @@
+// Record comments — AA's active_admin_comments partial renders comment
+// entries plus a new-comment form. Keep it aligned with the panel aesthetic.
+
+.active_admin_comments,
+.comments {
+  .active_admin_comment {
+    padding: $space-4 0;
+    border-bottom: 1px solid $surface-200;
+
+    &:last-child {
+      border-bottom: 0;
+    }
+
+    .active_admin_comment_meta {
+      display: flex;
+      gap: $space-2;
+      align-items: center;
+      font-size: $font-size-xs;
+      color: $text-color-muted;
+      margin-bottom: $space-2;
+    }
+
+    .active_admin_comment_author {
+      font-weight: $font-weight-semibold;
+      color: $text-color-secondary;
+    }
+
+    .active_admin_comment_body {
+      font-size: $font-size-sm;
+      color: $text-color;
+      line-height: $line-height-relaxed;
+    }
+  }
+
+  form.active_admin_comment {
+    padding-top: $space-4;
+
+    fieldset.inputs {
+      border: 0;
+      padding: 0;
+      background: transparent;
+    }
+  }
+}

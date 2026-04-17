@@ -1,0 +1,13 @@
+// Border radius scale.
+
+$radius-xs:   2px;
+$radius-sm:   4px;
+$radius-md:   6px;
+$radius-lg:   10px;
+$radius-xl:   14px;
+$radius-2xl:  20px;
+$radius-full: 9999px;
+
+// Conventional defaults
+$border-radius:       $radius-md !default;  // inputs, buttons
+$border-radius-card:  $radius-lg !default;  // panels/cards

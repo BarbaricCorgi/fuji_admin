@@ -1,0 +1,224 @@
+// Filters drawer. Turns AA's `#sidebar` (when the page has `.with_sidebar`)
+// into a right-anchored slide-in panel, triggered by a "Filters" button in
+// the title bar.
+
+// --- Toggle button in the title bar -----------------------------------------
+.fuji-filters-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: $space-2;
+  padding: $space-2 $space-3;
+  font-family: inherit;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  line-height: 1.4;
+  color: $text-color;
+  background-color: $surface-0;
+  border: 1px solid $surface-border;
+  border-radius: $border-radius;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+
+  &:hover {
+    background-color: $surface-100;
+    border-color: $surface-400;
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: $shadow-focus;
+  }
+
+  &__icon {
+    display: inline-flex;
+    color: $text-color-secondary;
+  }
+
+  &__count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 $space-1;
+    margin-left: $space-1;
+    background-color: $primary-color;
+    color: $primary-color-text;
+    border-radius: $radius-full;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    line-height: 1;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &--active {
+    border-color: $primary-200;
+    background-color: $primary-50;
+    color: $primary-700;
+
+    .fuji-filters-toggle__icon {
+      color: $primary-color;
+    }
+  }
+}
+
+// --- Drawer container (repurposed AA #sidebar) ------------------------------
+body.active_admin #sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 420px;
+  margin: 0;
+  padding: 0;
+  background-color: $surface-0;
+  border-left: 1px solid $surface-border;
+  box-shadow: $shadow-xl;
+  z-index: 30;
+  transform: translateX(100%);
+  transition: transform 0.25s ease;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+// Matches the default rule's specificity (2 IDs + 1 class) so it actually
+// wins the cascade when the drawer is open.
+body.active_admin.fuji-filters-open #sidebar {
+  transform: translateX(0);
+}
+
+// Drawer header (injected by JS) ---------------------------------------------
+.fuji-filters-drawer__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $space-4 $space-5;
+  border-bottom: 1px solid $surface-200;
+  flex: 0 0 auto;
+}
+
+.fuji-filters-drawer__title {
+  margin: 0;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $text-color;
+}
+
+.fuji-filters-drawer__close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: $border-radius;
+  color: $text-color-secondary;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background-color: $surface-100;
+    color: $text-color;
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: $shadow-focus;
+  }
+}
+
+// Sidebar sections shared reset — strip the default panel chrome so both
+// sections sit naturally inside the drawer body.
+body.active_admin #sidebar .sidebar_section.panel {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+
+  > h3 {
+    display: none; // "Filters" / "Search status:" — drawer header replaces them.
+  }
+
+  .panel_contents {
+    padding: 0;
+  }
+}
+
+// Filter form panel (the main body — scrollable).
+body.active_admin #sidebar #filters_sidebar_section {
+  order: 2;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  padding: $space-5;
+}
+
+// "Search status" / Current filters panel (compact chip strip at top).
+body.active_admin #sidebar .sidebar_section.panel:not(#filters_sidebar_section) {
+  order: 1;
+  flex: 0 0 auto;
+  padding: $space-4 $space-5;
+  border-bottom: 1px solid $surface-200;
+  background-color: $surface-50;
+
+  // AA emits the summary as a bare <div style="margin-top:10px"> with an
+  // inline <h4> label and a <ul> of current_filter entries.
+  .panel_contents > div {
+    margin-top: 0 !important; // override AA's inline margin-top:10px
+
+    > h4 {
+      margin: 0 0 $space-2 !important; // override inline margin-bottom:10px
+      font-size: $font-size-xs;
+      font-weight: $font-weight-semibold;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: $text-color-muted;
+    }
+
+    > ul {
+      display: flex;
+      flex-wrap: wrap;
+      gap: $space-1;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+  }
+
+  li.current_filter {
+    display: inline-flex;
+    align-items: center;
+    gap: $space-1;
+    padding: $space-1 $space-3;
+    background-color: $primary-50;
+    border: 1px solid $primary-100;
+    border-radius: $radius-full;
+    font-size: $font-size-xs;
+    line-height: 1.4;
+
+    span {
+      color: $text-color-secondary;
+    }
+
+    b {
+      color: $primary-700;
+      font-weight: $font-weight-semibold;
+    }
+  }
+
+  .current_scope_name {
+    color: $primary-700;
+    font-weight: $font-weight-semibold;
+  }
+}
+
+// Legacy flex reset removed — layouts/_main_content.scss no longer applies a
+// two-column flex to `#active_admin_content.with_sidebar`, so no override is
+// needed here.

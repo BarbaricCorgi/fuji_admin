@@ -1,0 +1,262 @@
+// Tables — primarily `table.index_table` (AA resource index pages) and
+// `.attributes_table` (AA resource show pages).
+
+table.index_table {
+  width: 100%;
+  background-color: $surface-0;
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid $surface-border;
+  border-radius: $border-radius-card;
+  overflow: hidden;
+  font-size: $font-size-sm;
+
+  thead {
+    background-color: $surface-50;
+
+    th {
+      padding: $space-3 $space-4;
+      font-weight: $font-weight-semibold;
+      color: $text-color-secondary;
+      text-align: left;
+      border-bottom: 1px solid $surface-200;
+      white-space: nowrap;
+
+      a {
+        color: inherit;
+
+        &:hover {
+          color: $primary-color;
+          text-decoration: none;
+        }
+      }
+
+      &.sortable.asc a::after,
+      &.sorted-asc a::after {
+        content: " ↑";
+        color: $primary-color;
+      }
+
+      &.sortable.desc a::after,
+      &.sorted-desc a::after {
+        content: " ↓";
+        color: $primary-color;
+      }
+
+      // Bulk-select column
+      &.col-selectable {
+        width: 32px;
+        padding-right: 0;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      transition: background-color 0.15s ease;
+
+      &:hover {
+        background-color: $surface-50;
+      }
+
+      &.selected {
+        background-color: $primary-50;
+      }
+
+      td {
+        padding: $space-3 $space-4;
+        border-bottom: 1px solid $surface-200;
+        color: $text-color;
+        vertical-align: middle;
+      }
+
+      &:last-child td {
+        border-bottom: 0;
+      }
+    }
+  }
+
+  // Per-row actions column — the dropdown trigger and menu live in
+  // components/_row_actions.scss. When JS hasn't wrapped the actions (no-JS
+  // fallback, or only one action), links inside `.table_actions` still get
+  // a small outlined-button style so the cell doesn't look broken.
+  .col-actions,
+  td.col-actions {
+    text-align: right;
+    white-space: nowrap;
+    width: 1%; // shrink-to-fit so the actions column doesn't steal width
+
+    .table_actions {
+      display: inline-flex;
+      gap: $space-1;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+
+      > a {
+        display: inline-flex;
+        align-items: center;
+        padding: $space-1 $space-2;
+        margin: 0;
+        font-size: $font-size-xs;
+        font-weight: $font-weight-medium;
+        line-height: 1.4;
+        color: $text-color-secondary;
+        background-color: transparent;
+        border: 1px solid $surface-border;
+        border-radius: $radius-sm;
+        text-decoration: none;
+        transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+
+        &:hover {
+          background-color: $primary-50;
+          color: $primary-700;
+          border-color: $primary-200;
+          text-decoration: none;
+        }
+
+        &:focus-visible {
+          outline: none;
+          box-shadow: $shadow-focus;
+        }
+
+        &.delete_link:hover {
+          background-color: rgba($color-danger, 0.08);
+          color: $color-danger;
+          border-color: rgba($color-danger, 0.3);
+        }
+      }
+    }
+  }
+}
+
+// Show-page attributes table — two-column label/value rows.
+.attributes_table {
+  table {
+    width: 100%;
+    font-size: $font-size-sm;
+    border-collapse: separate;
+    border-spacing: 0;
+
+    th,
+    td {
+      padding: $space-3 $space-4;
+      border-bottom: 1px solid $surface-200;
+      vertical-align: top;
+    }
+
+    th {
+      width: 30%;
+      min-width: 180px;
+      font-size: $font-size-xs;
+      font-weight: $font-weight-semibold;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: $text-color-muted;
+      text-align: left;
+      padding-right: $space-5;
+    }
+
+    td {
+      color: $text-color;
+      word-break: break-word;
+    }
+
+    tr:hover {
+      background-color: $surface-50;
+    }
+
+    tr:last-child th,
+    tr:last-child td {
+      border-bottom: 0;
+    }
+  }
+}
+
+// Generic `table_for` / bare `<table>` output. Matches:
+//   * direct children of #main_content (custom index pages like /admin/favorites)
+//   * tables inside `.panel .panel_contents` (show-page entities, related docs)
+//   * tables with a `.summary-table` class (reporting dashboards)
+//
+// Using `> table` in the first selector avoids matching `.attributes_table`'s
+// inner table (which lives deeper than a direct child of #main_content).
+#main_content > table:not(.index_table):not(.ui-datepicker-calendar),
+#main_content table.summary-table,
+.panel .panel_contents table:not(.index_table):not(.ui-datepicker-calendar) {
+  width: 100%;
+  background-color: $surface-0;
+  border: 1px solid $surface-border;
+  border-radius: $border-radius;
+  border-collapse: separate;
+  border-spacing: 0;
+  overflow: hidden;
+  font-size: $font-size-sm;
+  margin-bottom: $space-3;
+
+  thead {
+    background-color: $surface-50;
+
+    th {
+      padding: $space-2 $space-3;
+      font-size: $font-size-xs;
+      font-weight: $font-weight-semibold;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: $text-color-muted;
+      text-align: left;
+      border-bottom: 1px solid $surface-200;
+      white-space: nowrap;
+    }
+  }
+
+  tbody {
+    tr {
+      transition: background-color 0.15s ease;
+
+      &:hover {
+        background-color: $surface-50;
+      }
+
+      &.odd {
+        background-color: transparent; // we handle alternation via hover
+      }
+
+      td {
+        padding: $space-2 $space-3;
+        border-bottom: 1px solid $surface-200;
+        color: $text-color;
+        vertical-align: top;
+      }
+
+      &:last-child td {
+        border-bottom: 0;
+      }
+    }
+  }
+}
+
+// AA's `columns` helper — two (or more) tables laid out side-by-side inside
+// a single panel. Stack below md.
+.columns {
+  display: flex;
+  flex-direction: column;
+  gap: $space-4;
+
+  @include media-up(md) {
+    flex-direction: row;
+    gap: $space-5;
+  }
+
+  > .column {
+    flex: 1 1 0;
+    min-width: 0; // allow shrink for wide columns
+  }
+}
+
+// Empty state inside table panels
+.blank_slate_container {
+  padding: $space-9 $space-5;
+  text-align: center;
+  color: $text-color-muted;
+  font-size: $font-size-sm;
+}

@@ -1,0 +1,94 @@
+// Buttons — primary, secondary, and the handful of specialised AA variants.
+//
+// AA emits buttons as many different selectors (form submits, action items,
+// filter buttons, batch actions). A shared mixin keeps visuals consistent.
+
+@mixin fuji-button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $space-2;
+  padding: $space-2 $space-4;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  line-height: 1.4;
+  border: 1px solid transparent;
+  border-radius: $border-radius;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: $shadow-focus;
+  }
+
+  &:disabled,
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+@mixin fuji-button-primary {
+  @include fuji-button-base;
+  background-color: $primary-color;
+  color: $primary-color-text;
+  border-color: $primary-color;
+
+  &:hover {
+    background-color: $primary-700;
+    border-color: $primary-700;
+    color: $primary-color-text;
+    text-decoration: none;
+  }
+
+  &:active {
+    background-color: $primary-800;
+    border-color: $primary-800;
+  }
+}
+
+@mixin fuji-button-secondary {
+  @include fuji-button-base;
+  background-color: $surface-0;
+  color: $text-color;
+  border-color: $surface-border;
+
+  &:hover {
+    background-color: $surface-100;
+    color: $text-color;
+    text-decoration: none;
+  }
+
+  &:active {
+    background-color: $surface-200;
+  }
+}
+
+// Primary button surface — form submit, action item buttons, batch actions.
+form input[type="submit"],
+a.button,
+a:link.button,
+a:visited.button,
+fieldset.actions > ol > li.button_action > button,
+#title_bar #titlebar_right .action_item > a,
+.batch_actions_selector > a,
+.table_tools .batch_actions_selector > a {
+  @include fuji-button-primary;
+}
+
+// Secondary / cancel surface.
+form fieldset.buttons li.cancel a,
+form fieldset.actions li.cancel a,
+form.filter_form a.clear_filters_btn,
+form.filter_form input[type="submit"].clear_filters_btn {
+  @include fuji-button-secondary;
+}
+
+// Filter form submit — secondary but accented.
+form.filter_form input[type="submit"] {
+  @include fuji-button-primary;
+  width: 100%;
+  margin-top: $space-3;
+}

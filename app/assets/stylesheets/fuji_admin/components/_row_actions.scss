@@ -1,0 +1,110 @@
+// Row-action dropdown — injected by fuji_admin/row_actions.js into
+// `table.index_table td.col-actions` when the row has 2+ actions. Keeps the
+// column compact regardless of action count.
+
+.fuji-row-actions {
+  position: relative;
+  display: inline-flex;
+
+  &__trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    background: transparent;
+    border: 1px solid $surface-border;
+    border-radius: $radius-sm;
+    color: $text-color-secondary;
+    cursor: pointer;
+    transition:
+      background-color 0.15s ease,
+      color 0.15s ease,
+      border-color 0.15s ease;
+
+    &:hover {
+      background-color: $primary-50;
+      color: $primary-700;
+      border-color: $primary-200;
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: $shadow-focus;
+    }
+
+    &[aria-expanded="true"] {
+      background-color: $primary-50;
+      color: $primary-700;
+      border-color: $primary-200;
+    }
+
+    svg {
+      display: block;
+    }
+  }
+
+  &__menu {
+    // Fixed positioning — anchored to the trigger by JS using getBoundingClientRect.
+    // Sits above the filter drawer (z:30) and header (z:20); `.paginated_collection`
+    // has `overflow: hidden` so absolute positioning would clip us. Fixed sidesteps
+    // that entirely.
+    position: fixed;
+    min-width: 180px;
+    padding: $space-1;
+    background-color: $surface-0;
+    border: 1px solid $surface-border;
+    border-radius: $border-radius;
+    box-shadow: $shadow-md;
+    z-index: 50;
+    text-align: left;
+    white-space: normal;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  // Links in the menu — override the outlined-pill fallback styles so they
+  // render as menu rows instead.
+  .col-actions &__item,
+  &__item {
+    display: block;
+    width: 100%;
+    padding: $space-2 $space-3;
+    margin: 0;
+    border: 0;
+    border-radius: $radius-sm;
+    background-color: transparent;
+    color: $text-color;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-regular;
+    line-height: 1.4;
+    text-align: left;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color 0.15s ease, color 0.15s ease;
+
+    &:hover {
+      background-color: $surface-100;
+      color: $primary-700;
+      border: 0;
+      text-decoration: none;
+    }
+
+    &:focus-visible {
+      outline: none;
+      background-color: $surface-100;
+    }
+
+    &--danger {
+      color: $color-danger;
+
+      &:hover {
+        background-color: rgba($color-danger, 0.08);
+        color: $color-danger;
+      }
+    }
+  }
+}

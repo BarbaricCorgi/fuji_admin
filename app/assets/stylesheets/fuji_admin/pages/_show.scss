@@ -1,0 +1,19 @@
+// Resource show page. The attributes_table is already styled; this is just
+// the container rhythm for the show layout.
+
+.show {
+  .attributes_table {
+    &:not(:last-child) {
+      margin-bottom: $space-5;
+    }
+
+    h3 {
+      margin: 0 0 $space-3;
+      font-size: $font-size-base;
+      font-weight: $font-weight-semibold;
+      color: $text-color-secondary;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+  }
+}

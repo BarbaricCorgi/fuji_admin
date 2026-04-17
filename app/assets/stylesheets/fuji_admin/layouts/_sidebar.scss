@@ -1,0 +1,124 @@
+// Left sidebar — main navigation (ActiveAdmin renders as `#tabs` inside the
+// header). Fixed to the viewport at lg+, hidden below that breakpoint.
+// (Mobile drawer behaviour is a future enhancement.)
+
+body.active_admin.logged_in {
+  #tabs,
+  #header #tabs,
+  .header #tabs {
+    display: block;          // AA tags #tabs with `.header-item` which our
+    flex-direction: column;  // header rules would otherwise flex-row.
+    position: fixed;
+    top: $header-height-mobile;
+    left: -#{$sidebar-width};
+    bottom: 0;
+    width: $sidebar-width;
+    padding: $space-4 0;
+    background-color: $surface-0;
+    border-right: 1px solid $surface-border;
+    overflow-y: auto;
+    list-style: none;
+    margin: 0;
+    z-index: 16; // above backdrop (14) and content
+    transition: left 0.25s ease;
+
+    @include media-up(md) {
+      top: $header-height;
+    }
+
+    // Off-canvas drawer on mobile — slides in when body.fuji-menu-open.
+    &.tabs_open {
+      left: 0;
+      box-shadow: $shadow-lg;
+    }
+
+    @include media-up(lg) {
+      left: 0;
+      transition: none;
+      box-shadow: none;
+    }
+
+    > li {
+      display: block;
+      margin: 0;
+
+      > a {
+        display: flex;
+        align-items: center;
+        gap: $space-3;
+        padding: $space-3 $space-5;
+        color: $text-color-secondary;
+        font-size: $font-size-sm;
+        font-weight: $font-weight-medium;
+        border-left: 3px solid transparent;
+        transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+
+        &:hover {
+          background-color: $surface-100;
+          color: $text-color;
+          text-decoration: none;
+        }
+      }
+
+      &.current > a {
+        color: $primary-color;
+        background-color: $primary-50;
+        border-left-color: $primary-color;
+      }
+
+      // Nested submenus — collapsed by default, expanded on .open or .current.
+      &.has_nested {
+        > a::after {
+          content: "";
+          display: inline-block;
+          margin-left: auto;
+          width: 0;
+          height: 0;
+          border-left: 4px solid transparent;
+          border-right: 4px solid transparent;
+          border-top: 5px solid currentColor;
+          transition: transform 0.2s ease;
+        }
+
+        &.open > a::after,
+        &.current > a::after {
+          transform: rotate(180deg);
+        }
+
+        > ul {
+          display: none;
+        }
+
+        &.open > ul,
+        &.current > ul {
+          display: block;
+        }
+      }
+
+      &.has_nested > ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        background-color: $surface-50;
+
+        li a {
+          display: block;
+          padding: $space-2 $space-5 $space-2 $space-8;
+          color: $text-color-secondary;
+          font-size: $font-size-sm;
+
+          &:hover {
+            background-color: $surface-100;
+            color: $text-color;
+            text-decoration: none;
+          }
+        }
+
+        li.current a {
+          color: $primary-color;
+          font-weight: $font-weight-medium;
+        }
+      }
+    }
+  }
+}

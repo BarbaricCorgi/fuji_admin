@@ -1,0 +1,44 @@
+// Panel — the generic card used for sidebar sections, dashboard tiles, and
+// any `panel` helper from ActiveAdmin DSL.
+
+.panel,
+.sidebar_section.panel {
+  background-color: $surface-0;
+  border: 1px solid $surface-border;
+  border-radius: $border-radius-card;
+  box-shadow: $shadow-xs;
+  margin-bottom: $space-5;
+  overflow: hidden;
+
+  > h3 {
+    margin: 0;
+    padding: $space-4 $space-5;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    color: $text-color;
+    border-bottom: 1px solid $surface-200;
+    background-color: transparent;
+  }
+
+  .panel_contents {
+    padding: $space-5;
+  }
+}
+
+// Inside the sidebar, tighten the defaults slightly.
+#sidebar .sidebar_section.panel {
+  box-shadow: none;
+
+  > h3 {
+    font-size: $font-size-sm;
+    padding: $space-3 $space-4;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: $text-color-secondary;
+    background-color: $surface-50;
+  }
+
+  .panel_contents {
+    padding: $space-4;
+  }
+}

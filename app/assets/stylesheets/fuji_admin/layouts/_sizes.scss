@@ -1,0 +1,12 @@
+// Layout-specific sizes. Keep these here rather than in variables/ because
+// they describe the theme's chrome, not design tokens a consumer would
+// override from their app.
+
+$header-height:           64px;
+$header-height-mobile:    56px;
+
+$sidebar-width:           240px;   // wide, labeled (default)
+$sidebar-width-collapsed: 72px;    // future icon-only rail
+
+$content-padding:         $space-6;   // 24px — desktop
+$content-padding-mobile:  $space-3;   // 12px — tighter on phones so cards breathe

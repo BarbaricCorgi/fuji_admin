@@ -1,0 +1,7 @@
+// Aggregator. Order: sizes → wrapper → header → sidebar → main → footer.
+@import "sizes";
+@import "wrapper";
+@import "header";
+@import "sidebar";
+@import "main_content";
+@import "footer";

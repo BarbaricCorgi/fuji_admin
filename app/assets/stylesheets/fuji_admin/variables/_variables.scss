@@ -1,0 +1,9 @@
+// Aggregator — import in dependency order.
+// colors depend on nothing; shadows depend on colors (focus ring).
+
+@import "breakpoints";
+@import "spacing";
+@import "typography";
+@import "radii";
+@import "colors";
+@import "shadows";

@@ -1,0 +1,25 @@
+// Breakpoints — match PrimeReact Verona's scale for parity with reference UI.
+// Use via mixins/_media.scss.
+
+$bp-sm:   576px;  // phone landscape
+$bp-md:   768px;  // tablet
+$bp-lg:   992px;  // small desktop
+$bp-xl:  1200px;  // desktop
+$bp-xxl: 1960px;  // ultra-wide
+
+$breakpoints: (
+  sm:  $bp-sm,
+  md:  $bp-md,
+  lg:  $bp-lg,
+  xl:  $bp-xl,
+  xxl: $bp-xxl,
+);
+
+// Container max-widths at each breakpoint (for centered layouts).
+$container-max-widths: (
+  sm:  540px,
+  md:  720px,
+  lg:  960px,
+  xl: 1140px,
+  xxl: 1680px,
+);

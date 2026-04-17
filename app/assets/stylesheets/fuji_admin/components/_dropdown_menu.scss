@@ -1,0 +1,76 @@
+// Dropdown menus — AA renders as `div.dropdown_menu` containing a trigger
+// `a.dropdown_menu_button` and a `div.dropdown_menu_list_wrapper` with an
+// inner `ul.dropdown_menu_list`. Used for batch actions, download formats,
+// and action item menus.
+
+.dropdown_menu {
+  position: relative;
+  display: inline-flex;
+
+  > a.dropdown_menu_button {
+    @include fuji-button-secondary;
+
+    &::after {
+      content: "";
+      display: inline-block;
+      width: 0;
+      height: 0;
+      margin-left: $space-2;
+      border-left: 4px solid transparent;
+      border-right: 4px solid transparent;
+      border-top: 5px solid currentColor;
+    }
+  }
+
+  .dropdown_menu_list_wrapper {
+    position: absolute;
+    top: calc(100% + #{$space-1});
+    right: 0;
+    min-width: 180px;
+    background-color: $surface-0;
+    border: 1px solid $surface-border;
+    border-radius: $border-radius;
+    box-shadow: $shadow-md;
+    padding: $space-1;
+    z-index: 30;
+  }
+
+  // Remove AA's legacy nipple/arrow pointer artifacts.
+  .dropdown_menu_nipple {
+    display: none;
+  }
+
+  ul.dropdown_menu_list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    li {
+      display: block;
+
+      a {
+        display: block;
+        padding: $space-2 $space-3;
+        font-size: $font-size-sm;
+        color: $text-color;
+        border-radius: $radius-sm;
+        transition: background-color 0.15s ease, color 0.15s ease;
+
+        &:hover {
+          background-color: $surface-100;
+          color: $primary-color;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}
+
+// Primary-flavoured trigger when used inside the title bar action row.
+#title_bar #titlebar_right .dropdown_menu > a.dropdown_menu_button {
+  @include fuji-button-primary;
+
+  &::after {
+    border-top-color: $primary-color-text;
+  }
+}

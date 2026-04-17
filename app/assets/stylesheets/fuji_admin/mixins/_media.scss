@@ -1,0 +1,30 @@
+// Responsive media-query mixins keyed off the breakpoint map.
+// Usage:
+//   @include media-up(md)   { ... }   // min-width: 768px
+//   @include media-down(md) { ... }   // max-width: 767.98px
+//   @include media-between(sm, lg) { ... }
+
+@mixin media-up($name) {
+  $min: map-get($breakpoints, $name);
+  @if $min == null {
+    @error "Unknown breakpoint `#{$name}`.";
+  }
+  @media (min-width: $min) { @content; }
+}
+
+@mixin media-down($name) {
+  $max: map-get($breakpoints, $name);
+  @if $max == null {
+    @error "Unknown breakpoint `#{$name}`.";
+  }
+  @media (max-width: $max - 0.02px) { @content; }
+}
+
+@mixin media-between($lower, $upper) {
+  $min: map-get($breakpoints, $lower);
+  $max: map-get($breakpoints, $upper);
+  @if $min == null or $max == null {
+    @error "Unknown breakpoint(s) `#{$lower}` / `#{$upper}`.";
+  }
+  @media (min-width: $min) and (max-width: $max - 0.02px) { @content; }
+}

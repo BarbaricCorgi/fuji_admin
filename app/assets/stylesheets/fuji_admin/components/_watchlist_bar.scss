@@ -1,0 +1,119 @@
+// Watchlist bar — rendered by omnia above show-page details for Company and
+// Person records. Shows current watchlist membership as removable pills plus
+// a primary "Add to Watchlist" button.
+
+.fuji-watchlist-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $space-3;
+  padding: $space-3 $space-4;
+  margin-bottom: $space-5;
+  background-color: $surface-50;
+  border: 1px solid $surface-border;
+  border-radius: $border-radius;
+  font-size: $font-size-sm;
+
+  &__label {
+    display: inline-flex;
+    align-items: center;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: $text-color-muted;
+    flex-shrink: 0;
+
+    &::after {
+      content: ":";
+      margin-left: 2px;
+    }
+  }
+
+  &__items {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: $space-2;
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  &__item {
+    display: inline-flex;
+    align-items: center;
+    gap: $space-1;
+    padding: $space-1 $space-2 $space-1 $space-3;
+    background-color: $primary-50;
+    border: 1px solid $primary-100;
+    border-radius: $radius-full;
+    color: $primary-700;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    line-height: 1.4;
+  }
+
+  &__remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    margin-left: $space-1;
+    padding: 0;
+    background-color: $primary-100;
+    color: $primary-700;
+    border-radius: $radius-full;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    line-height: 1;
+    text-decoration: none;
+    transition: background-color 0.15s ease, color 0.15s ease;
+
+    &:hover {
+      background-color: rgba($color-danger, 0.14);
+      color: $color-danger;
+      text-decoration: none;
+    }
+  }
+
+  &__empty {
+    color: $text-color-muted;
+    font-style: italic;
+  }
+
+  &__add {
+    display: inline-flex;
+    align-items: center;
+    gap: $space-1;
+    padding: $space-1 $space-3;
+    margin-left: auto;              // push to the right on wide layouts
+    background-color: $primary-color;
+    color: $primary-color-text;
+    border: 1px solid $primary-color;
+    border-radius: $border-radius;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    line-height: 1.6;
+    text-decoration: none;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+
+    &:hover {
+      background-color: $primary-700;
+      border-color: $primary-700;
+      color: $primary-color-text;
+      text-decoration: none;
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: $shadow-focus;
+    }
+
+    &::before {
+      content: "+";
+      font-size: $font-size-sm;
+      font-weight: $font-weight-bold;
+    }
+  }
+}

@@ -1,0 +1,61 @@
+// Resource new/edit form page. Input styling comes from
+// components/_inputs.scss; this adds nested has_many blocks and a few
+// form-layout tweaks.
+
+form.formtastic {
+  fieldset.inputs + fieldset.inputs {
+    margin-top: $space-5;
+  }
+
+  // has_many nested forms (children of a parent record)
+  ol > li.has_many_container {
+    padding: 0;
+    margin-bottom: $space-4;
+
+    h3 {
+      margin: 0 0 $space-3;
+      font-size: $font-size-base;
+      font-weight: $font-weight-semibold;
+      color: $text-color-secondary;
+    }
+
+    fieldset.inputs {
+      background-color: $surface-50;
+      border-style: dashed;
+    }
+
+    .has_many_add {
+      @include fuji-button-secondary;
+      margin-top: $space-2;
+    }
+
+    .has_many_remove {
+      @include fuji-button-secondary;
+      color: $color-danger;
+      border-color: rgba($color-danger, 0.3);
+
+      &:hover {
+        background-color: rgba($color-danger, 0.08);
+        border-color: $color-danger;
+      }
+    }
+  }
+
+  // Fragment fieldsets (nested attribute sets inside a single field).
+  fieldset > ol > li fieldset.fragments {
+    padding: 0;
+    border: 0;
+    background: transparent;
+
+    ol {
+      display: flex;
+      flex-wrap: wrap;
+      gap: $space-3;
+
+      li {
+        flex: 1 1 auto;
+        padding: 0;
+      }
+    }
+  }
+}

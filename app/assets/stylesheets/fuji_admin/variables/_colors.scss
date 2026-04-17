@@ -1,0 +1,51 @@
+// Color tokens. Values seeded from Verona (PrimeReact) for a coherent starting
+// palette. Override any of these by redeclaring the variable *before* the
+// fuji_admin import in the host app's active_admin.scss.
+
+// Surfaces — neutral backgrounds & borders
+$surface-0:      #ffffff !default;  // card
+$surface-50:     #f7f8fa !default;  // app background
+$surface-100:    #f3f5f9 !default;
+$surface-200:    #e5e9f0 !default;
+$surface-300:    #dfe7ef !default;  // border
+$surface-400:    #bdbdbd !default;
+$surface-500:    #9e9e9e !default;
+$surface-600:    #757575 !default;
+$surface-700:    #616161 !default;
+$surface-800:    #424242 !default;
+$surface-900:    #212121 !default;
+
+$surface-border: $surface-300 !default;
+
+// Text
+$text-color:           #212121 !default;
+$text-color-secondary: #616161 !default;
+$text-color-muted:     #9e9e9e !default;
+
+// Primary — deep indigo/blue (Verona primary ramp)
+$primary-50:   #f2f5fc !default;
+$primary-100:  #d4daed !default;
+$primary-200:  #b2bce0 !default;
+$primary-300:  #909ed2 !default;
+$primary-400:  #6e80c5 !default;
+$primary-500:  #4e63b2 !default;
+$primary-600:  #41549b !default;
+$primary-700:  #35457f !default;
+$primary-800:  #2a3664 !default;
+$primary-900:  #1f2849 !default;
+
+$primary-color:      $primary-600 !default;
+$primary-color-text: $surface-0   !default;
+
+// Semantic
+$color-success: #22a06b !default;
+$color-warning: #de911d !default;
+$color-danger:  #cd4246 !default;
+$color-info:    #1992d4 !default;
+
+// Links
+$link-primary-color: $primary-600 !default;
+$link-hover-color:   $primary-700 !default;
+
+// App-level defaults (used once base typography lands)
+$body-background: $surface-50 !default;

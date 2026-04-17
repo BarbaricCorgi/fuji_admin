@@ -1,0 +1,14 @@
+// Table tools — the toolbar above index_table containing scopes, batch
+// actions selector, and download formats dropdown.
+
+.table_tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $space-3;
+  align-items: center;
+  padding: 0 0 $space-4;
+
+  > * {
+    display: inline-flex;
+  }
+}

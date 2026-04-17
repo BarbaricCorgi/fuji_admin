@@ -1,0 +1,237 @@
+// Form inputs — text, email, password, number, search, tel, url, textarea,
+// and native selects. Select2 and date pickers get their own components.
+//
+// Sizing approach: pad to ~40px total height (10px y / 12px x + 1px borders +
+// ~1.4 line-height on 14px text). Matches Verona's InputText aesthetic so
+// stacked forms breathe and feel touch-friendly.
+
+$input-padding-y: 10px;
+$input-padding-x: $space-3;
+
+@mixin fuji-input-base {
+  display: block;
+  width: 100%;
+  padding: $input-padding-y $input-padding-x;
+  font-family: inherit;
+  font-size: $font-size-sm;
+  line-height: 1.4;
+  color: $text-color;
+  background-color: $surface-0;
+  border: 1px solid $surface-border;
+  border-radius: $border-radius;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    color 0.2s ease;
+  appearance: none;
+  -webkit-appearance: none;
+
+  &::placeholder {
+    color: $text-color-muted;
+    opacity: 1; // Firefox applies its own opacity otherwise
+  }
+
+  &:hover:not(:disabled):not(:focus) {
+    border-color: $surface-400;
+  }
+
+  &:focus {
+    outline: none;
+    border-color: $primary-500;
+    box-shadow: 0 0 0 3px rgba($primary-500, 0.18);
+  }
+
+  &:disabled,
+  &[readonly] {
+    background-color: $surface-50;
+    color: $text-color-muted;
+    cursor: not-allowed;
+    border-color: $surface-200;
+
+    &::placeholder {
+      color: $surface-400;
+    }
+  }
+
+  &.invalid,
+  &[aria-invalid="true"] {
+    border-color: $color-danger;
+
+    &:focus {
+      box-shadow: 0 0 0 3px rgba($color-danger, 0.18);
+    }
+  }
+}
+
+form {
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="search"],
+  input[type="tel"],
+  input[type="url"],
+  input[type="date"],
+  input[type="datetime-local"],
+  input[type="month"],
+  input[type="time"],
+  input[type="week"],
+  textarea {
+    @include fuji-input-base;
+  }
+
+  textarea {
+    height: 144px;        // sensible default regardless of `rows` attribute
+    min-height: 108px;
+    line-height: 1.5;
+    resize: vertical;     // user can drag taller if needed
+  }
+
+  select {
+    @include fuji-input-base;
+    padding-right: $space-7;
+    background-image: linear-gradient(45deg, transparent 50%, $text-color-secondary 50%),
+                      linear-gradient(135deg, $text-color-secondary 50%, transparent 50%);
+    background-position: right $space-4 center, right $space-3 center;
+    background-size: 5px 5px, 5px 5px;
+    background-repeat: no-repeat;
+  }
+
+  // Fieldset wrapper used throughout AA forms. We treat it as a card with a
+  // distinct header bar; the legend replaces the fieldset's top border so the
+  // border never passes behind the title.
+  fieldset.inputs {
+    background-color: $surface-0;
+    border: 1px solid $surface-border;
+    border-radius: $border-radius-card;
+    padding: 0;
+    margin: 0 0 $space-5;
+    overflow: hidden; // keep the header's rounded top corners clean
+
+    legend {
+      display: block;
+      float: left;       // lets the legend own the card's top row
+      width: 100%;
+      padding: $space-3 $space-5;
+      margin: 0;
+      background-color: $surface-50;
+      color: $text-color;
+      font-size: $font-size-xs;
+      font-weight: $font-weight-semibold;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid $surface-200;
+
+      span {
+        background: transparent;
+        color: inherit;
+        padding: 0;
+      }
+    }
+
+    ol {
+      clear: both; // clear the floated legend above
+      list-style: none;
+      padding: $space-5;
+      margin: 0;
+
+      > li {
+        padding: 0 0 $space-4;
+        margin: 0;
+
+        &:last-child {
+          padding-bottom: 0;
+        }
+
+        > label {
+          display: block;
+          margin-bottom: $space-2;
+          font-size: $font-size-sm;
+          font-weight: $font-weight-medium;
+          color: $text-color-secondary;
+        }
+
+        p.inline-hints,
+        .inline-hints {
+          margin-top: $space-1;
+          font-size: $font-size-xs;
+          color: $text-color-muted;
+        }
+
+        p.inline-errors,
+        .inline-errors {
+          margin-top: $space-1;
+          font-size: $font-size-xs;
+          color: $color-danger;
+        }
+      }
+
+      // Boolean input — AA wraps the checkbox + label text inside a single
+      // <label>, so we just style that label as an inline-flex row and let
+      // the hint drop naturally below.
+      li.boolean {
+        > label {
+          display: inline-flex;
+          align-items: center;
+          gap: $space-2;
+          margin: 0;
+          font-size: $font-size-sm;
+          font-weight: $font-weight-regular;
+          color: $text-color;
+          text-transform: none;
+          letter-spacing: 0;
+          cursor: pointer;
+
+          input[type="checkbox"] {
+            margin: 0;
+          }
+        }
+
+        > .inline-hints,
+        > p.inline-hints {
+          display: block;
+          margin: $space-1 0 0;
+          font-size: $font-size-xs;
+          color: $text-color-muted;
+        }
+      }
+    }
+  }
+
+  // Button row at the bottom of a form.
+  fieldset.actions,
+  fieldset.buttons {
+    display: flex;
+    gap: $space-3;
+    padding: $space-4 0 0;
+    margin: 0;
+    border: 0;
+
+    ol {
+      display: flex;
+      gap: $space-3;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li {
+      display: inline-flex;
+    }
+  }
+}
+
+// Radio + checkbox native styling — tidy size + primary accent.
+input[type="checkbox"],
+input[type="radio"] {
+  width: 16px;
+  height: 16px;
+  accent-color: $primary-color;
+  cursor: pointer;
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: $shadow-focus;
+  }
+}

@@ -1,0 +1,194 @@
+// Select2 — AA uses this for relation selectors and enum dropdowns. The
+// library renders its own DOM; we match the native input aesthetic so
+// single/multi selects feel like first-class members of a form.
+
+.select2-container--default {
+  width: 100% !important;
+
+  // --- Trigger (closed state) -------------------------------------------
+  .select2-selection--single,
+  .select2-selection--multiple {
+    min-height: 38px;
+    padding: 0;
+    background-color: $surface-0;
+    border: 1px solid $surface-border;
+    border-radius: $border-radius;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+
+    &:hover {
+      border-color: $surface-400;
+    }
+  }
+
+  &.select2-container--focus .select2-selection--single,
+  &.select2-container--focus .select2-selection--multiple,
+  &.select2-container--open .select2-selection--single,
+  &.select2-container--open .select2-selection--multiple {
+    border-color: $primary-color;
+    box-shadow: $shadow-focus;
+  }
+
+  // Single
+  .select2-selection--single {
+    display: flex;
+    align-items: center;
+
+    .select2-selection__rendered {
+      padding: 0 $space-7 0 $space-3;
+      font-size: $font-size-sm;
+      color: $text-color;
+      line-height: 1.5;
+    }
+
+    .select2-selection__placeholder {
+      color: $text-color-muted;
+    }
+
+    .select2-selection__arrow {
+      top: 50%;
+      right: $space-3;
+      height: 0;
+      width: 0;
+      transform: translateY(-50%);
+      background: none;
+      border: 0;
+
+      b {
+        margin: 0;
+        border: 0;
+        width: 0;
+        height: 0;
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        border-top: 5px solid $text-color-secondary;
+      }
+    }
+
+    .select2-selection__clear {
+      margin-right: $space-2;
+      color: $text-color-muted;
+      font-weight: $font-weight-regular;
+
+      &:hover {
+        color: $color-danger;
+      }
+    }
+  }
+
+  // Multi
+  .select2-selection--multiple {
+    padding: $space-1 $space-2;
+
+    .select2-selection__rendered {
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: $space-1;
+    }
+
+    .select2-selection__choice {
+      display: inline-flex;
+      align-items: center;
+      gap: $space-1;
+      margin: 2px 0;
+      padding: 2px $space-2;
+      background-color: $primary-50;
+      border: 1px solid $primary-100;
+      border-radius: $radius-sm;
+      color: $primary-700;
+      font-size: $font-size-xs;
+      font-weight: $font-weight-medium;
+    }
+
+    .select2-selection__choice__remove {
+      order: 2;
+      margin: 0 0 0 $space-1;
+      color: $primary-700;
+      cursor: pointer;
+      font-weight: $font-weight-bold;
+
+      &:hover {
+        color: $color-danger;
+      }
+    }
+
+    .select2-search--inline .select2-search__field {
+      margin: 0;
+      padding: 2px 0;
+      font-family: inherit;
+      font-size: $font-size-sm;
+      color: $text-color;
+    }
+  }
+}
+
+// --- Dropdown (open state) ----------------------------------------------
+// Select2 appends .select2-container--open / .select2-dropdown to <body>,
+// so these selectors are global.
+.select2-dropdown {
+  background-color: $surface-0;
+  border: 1px solid $surface-border;
+  border-radius: $border-radius;
+  box-shadow: $shadow-md;
+  overflow: hidden;
+
+  .select2-search--dropdown {
+    padding: $space-2;
+
+    .select2-search__field {
+      @include fuji-input-base;
+      font-size: $font-size-sm;
+    }
+  }
+
+  .select2-results__options {
+    max-height: 280px;
+    padding: $space-1;
+    overflow-y: auto;
+  }
+
+  .select2-results__option {
+    padding: $space-2 $space-3;
+    font-size: $font-size-sm;
+    color: $text-color;
+    border-radius: $radius-sm;
+    cursor: pointer;
+
+    &[aria-selected="true"] {
+      background-color: $primary-50;
+      color: $primary-700;
+      font-weight: $font-weight-medium;
+    }
+
+    &--highlighted {
+      background-color: $surface-100;
+      color: $text-color;
+
+      &[aria-selected="true"] {
+        background-color: $primary-100;
+        color: $primary-700;
+      }
+    }
+
+    &[aria-disabled="true"] {
+      color: $text-color-muted;
+      cursor: not-allowed;
+    }
+  }
+
+  .select2-results__group {
+    padding: $space-2 $space-3;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    color: $text-color-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  .select2-results__message {
+    padding: $space-3;
+    font-size: $font-size-sm;
+    color: $text-color-muted;
+    text-align: center;
+  }
+}

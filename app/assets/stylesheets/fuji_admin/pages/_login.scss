@@ -1,0 +1,77 @@
+// Logged-out / login page.
+//
+// Omnia (and other host apps) commonly override the devise session template
+// with a fully-branded login design (logos, backgrounds, colour palettes).
+// Rather than fight those overrides, we provide only a minimal safe baseline
+// here: center the content, kill default AA chrome, and let the host's own
+// styles define the visual card.
+//
+// The key principle: **don't force a white card around #active_admin_content**
+// on the login page — that card will always appear as an unwanted white
+// border around a branded dark login (as with Omnia's tiger theme).
+
+body.logged_out {
+  min-height: 100vh;
+  margin: 0;
+
+  #wrapper,
+  #content_wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  #active_admin_content {
+    flex: 1 1 auto;
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    max-width: none;
+  }
+
+  .flashes {
+    padding: $space-4;
+    margin: 0;
+    text-align: center;
+  }
+
+  // Neutralise fieldset legend header bar inside the login form — host
+  // stylesheets (Omnia's tiger theme etc.) expect standard input layout.
+  #login fieldset.inputs,
+  #login_form fieldset.inputs {
+    padding: 0;
+    margin: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    overflow: visible;
+
+    legend {
+      display: none;
+    }
+
+    ol {
+      padding: 0;
+    }
+  }
+
+  // Neutralise float labels inside the login form — the custom template
+  // renders its own label treatment; overlaying our floating labels produces
+  // duplicated / misaligned text.
+  #login .fuji-float > label,
+  #login_form .fuji-float > label {
+    position: static;
+    top: auto;
+    left: auto;
+    padding: 0;
+    margin: 0 0 $space-2;
+    background: transparent;
+    pointer-events: auto;
+    font-size: inherit;
+    color: inherit;
+    transition: none;
+  }
+}

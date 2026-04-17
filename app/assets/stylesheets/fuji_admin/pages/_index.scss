@@ -1,0 +1,77 @@
+// Resource index pages — .paginated_collection wraps the table + pagination
+// in a bordered card, nested inside #main_content. We drop the index_table's
+// own border/radius so only one ring is visible.
+
+// .paginated_collection is a structural wrapper only — `#main_content` is
+// the visual card, so adding a border here just creates a double-card
+// sandwich (noticeable on register_page index views that already contain
+// nested panels and bordered summary tables).
+.paginated_collection {
+  background-color: transparent;
+  border: 0;
+  border-radius: 0;
+  margin: 0;
+
+  table.index_table {
+    border: 0;
+    border-radius: 0;
+  }
+
+  .paginated_collection_contents {
+    overflow-x: auto;
+  }
+
+  .pagination_information,
+  .pagination {
+    padding: $space-3 0;
+  }
+
+  .pagination_information {
+    border-top: 1px solid $surface-200;
+  }
+}
+
+// Batch-actions checkbox column width.
+table.index_table tbody td.col-selectable {
+  width: 32px;
+  padding-right: 0;
+}
+
+// Download format links — rendered below the paginated table. Horizontal
+// padding is 0 now that .paginated_collection has no inner card (main_content
+// provides the gutter).
+.download_links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $space-2;
+  padding: $space-3 0 0;
+  border-top: 1px solid $surface-200;
+  margin-top: $space-3;
+  font-size: $font-size-xs;
+  color: $text-color-muted;
+
+  span {
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-weight: $font-weight-medium;
+  }
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    padding: $space-1 $space-2;
+    color: $text-color-secondary;
+    background-color: $surface-100;
+    border-radius: $radius-sm;
+    font-weight: $font-weight-medium;
+    text-decoration: none;
+    transition: background-color 0.15s ease, color 0.15s ease;
+
+    &:hover {
+      background-color: $primary-50;
+      color: $primary-color;
+      text-decoration: none;
+    }
+  }
+}

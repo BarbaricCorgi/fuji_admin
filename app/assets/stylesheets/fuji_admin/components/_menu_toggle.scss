@@ -1,0 +1,61 @@
+// Mobile menu toggle (hamburger). Injected by fuji_admin/menu.js into the
+// header. Visible below lg; hidden on desktop where the sidebar is fixed.
+
+.fuji-menu-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 4px;
+  width: 40px;
+  height: 40px;
+  margin-left: $space-2;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  border-radius: $border-radius;
+  cursor: pointer;
+  color: $text-color-secondary;
+  transition: background-color 0.15s ease, color 0.15s ease;
+
+  &:hover {
+    background-color: $surface-100;
+    color: $text-color;
+  }
+
+  &:focus-visible {
+    outline: none;
+    box-shadow: $shadow-focus;
+  }
+
+  &__bar {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background-color: currentColor;
+    border-radius: 1px;
+  }
+
+  @include media-up(lg) {
+    display: none;
+  }
+}
+
+// Shared backdrop for both drawers (mobile menu, filters). Pseudo-element can
+// only exist once per element, so both states listed together.
+body.fuji-menu-open::after,
+body.fuji-filters-open::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.35);
+  z-index: 14;
+}
+
+// Menu drawer is only a drawer below lg (sidebar is inline at lg+). Hide the
+// backdrop above lg *unless* the filters drawer is the reason it's there.
+@include media-up(lg) {
+  body.fuji-menu-open:not(.fuji-filters-open)::after {
+    display: none;
+  }
+}

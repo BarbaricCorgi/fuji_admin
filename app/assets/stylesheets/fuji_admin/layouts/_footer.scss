@@ -1,0 +1,21 @@
+// Footer — quiet attribution strip at the bottom of the viewport.
+
+#footer,
+.footer {
+  padding: $space-4 $content-padding-mobile;
+  color: $text-color-muted;
+  font-size: $font-size-sm;
+  text-align: center;
+
+  @include media-up(md) {
+    padding: $space-4 $content-padding;
+  }
+
+  a {
+    color: $text-color-secondary;
+
+    &:hover {
+      color: $primary-color;
+    }
+  }
+}

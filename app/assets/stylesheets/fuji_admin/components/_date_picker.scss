@@ -1,0 +1,147 @@
+// jQuery UI date picker — AA injects this when a field is declared
+// `as: :datepicker`. It's appended to <body> as `#ui-datepicker-div`.
+
+#ui-datepicker-div {
+  background-color: $surface-0;
+  border: 1px solid $surface-border;
+  border-radius: $border-radius-card;
+  box-shadow: $shadow-lg;
+  padding: $space-2;
+  font-family: inherit;
+  font-size: $font-size-sm;
+  z-index: 100;
+
+  // --- Header -----------------------------------------------------------
+  .ui-datepicker-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $space-2 $space-3 $space-3;
+    background: transparent;
+    border: 0;
+  }
+
+  .ui-datepicker-title {
+    flex: 1;
+    text-align: center;
+    font-weight: $font-weight-semibold;
+    color: $text-color;
+  }
+
+  .ui-datepicker-prev,
+  .ui-datepicker-next {
+    position: static;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border-radius: $radius-sm;
+    background: transparent;
+    border: 0;
+    color: $text-color-secondary;
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    &:hover {
+      background-color: $surface-100;
+      color: $text-color;
+    }
+
+    span {
+      display: none;
+    }
+
+    &::before {
+      content: "";
+      display: inline-block;
+      width: 0;
+      height: 0;
+      border-top: 5px solid transparent;
+      border-bottom: 5px solid transparent;
+    }
+  }
+
+  .ui-datepicker-prev::before {
+    border-right: 6px solid currentColor;
+  }
+
+  .ui-datepicker-next::before {
+    border-left: 6px solid currentColor;
+  }
+
+  // --- Calendar grid ----------------------------------------------------
+  table.ui-datepicker-calendar {
+    width: 100%;
+    margin: 0;
+    border-collapse: separate;
+    border-spacing: 2px;
+
+    th {
+      padding: $space-1 0;
+      font-size: $font-size-xs;
+      font-weight: $font-weight-medium;
+      color: $text-color-muted;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      text-align: center;
+    }
+
+    td {
+      padding: 0;
+      text-align: center;
+
+      a,
+      span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        margin: 0 auto;
+        border-radius: $radius-sm;
+        color: $text-color;
+        text-decoration: none;
+        font-size: $font-size-sm;
+        font-weight: $font-weight-regular;
+        cursor: pointer;
+        transition: background-color 0.12s ease, color 0.12s ease;
+      }
+
+      a:hover {
+        background-color: $surface-100;
+        color: $text-color;
+        text-decoration: none;
+      }
+
+      &.ui-datepicker-other-month a,
+      &.ui-datepicker-other-month span {
+        color: $text-color-muted;
+      }
+
+      &.ui-datepicker-today a,
+      &.ui-datepicker-today span {
+        background-color: $surface-100;
+        color: $primary-color;
+        font-weight: $font-weight-semibold;
+      }
+
+      &.ui-datepicker-current-day a,
+      &.ui-datepicker-current-day span {
+        background-color: $primary-color;
+        color: $primary-color-text;
+
+        &:hover {
+          background-color: $primary-700;
+        }
+      }
+
+      &.ui-datepicker-unselectable span {
+        color: $text-color-muted;
+        cursor: not-allowed;
+      }
+    }
+  }
+}

@@ -1,0 +1,71 @@
+// Active-filter chip strip — rendered above the table by fuji_admin/filters.js
+// when the URL has Ransack query params.
+
+.fuji-filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: $space-2;
+  padding: 0 0 $space-4;
+  margin: 0;
+
+  &__pill {
+    display: inline-flex;
+    align-items: center;
+    gap: $space-2;
+    padding: $space-1 $space-2 $space-1 $space-3;
+    background-color: $primary-50;
+    border: 1px solid $primary-100;
+    border-radius: $radius-full;
+    color: $primary-700;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    line-height: 1.4;
+    text-decoration: none;
+    transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+
+    &:hover {
+      background-color: $primary-100;
+      border-color: $primary-200;
+      color: $primary-800;
+      text-decoration: none;
+
+      .fuji-filter-chips__remove {
+        background-color: $primary-200;
+        color: $primary-800;
+      }
+    }
+  }
+
+  &__label {
+    white-space: nowrap;
+  }
+
+  &__remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    border-radius: $radius-full;
+    background-color: $primary-100;
+    color: $primary-700;
+    font-size: $font-size-sm;
+    line-height: 1;
+    transition: background-color 0.15s ease, color 0.15s ease;
+  }
+
+  &__clear {
+    margin-left: $space-2;
+    padding: $space-1 $space-2;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    color: $text-color-secondary;
+    text-decoration: none;
+
+    &:hover {
+      color: $color-danger;
+      text-decoration: underline;
+    }
+  }
+}

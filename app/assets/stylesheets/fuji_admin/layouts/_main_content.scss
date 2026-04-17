@@ -1,0 +1,118 @@
+// Main content area — the breathing room around the page, plus the title
+// bar (breadcrumb + page heading + action items) and the content card.
+
+#active_admin_content {
+  padding: $space-5 $content-padding-mobile $content-padding-mobile;
+
+  @include media-up(md) {
+    padding: $space-5 $content-padding $content-padding;
+  }
+
+  // Sidebar is repositioned as a right drawer (see components/_filter_drawer.scss),
+  // so `.with_sidebar` doesn't need an inline two-column layout.
+}
+
+// Edit / view / new pages benefit from maximising content width on narrow
+// screens — forms and attribute tables look better edge-to-edge. Index pages
+// keep their padded card so list tables sit in a clear container.
+body.show,
+body.edit,
+body.new {
+  @include media-down(md) {
+    #active_admin_content {
+      padding: $space-5 0 $space-4;
+    }
+  }
+}
+
+#title_bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: $space-3;
+  padding: $space-5 $content-padding-mobile 0;
+  margin: 0;
+
+  @include media-up(md) {
+    padding: $space-6 $content-padding 0;
+  }
+
+  #titlebar_left {
+    display: flex;
+    flex-direction: column;
+    gap: $space-1;
+  }
+
+  .breadcrumb {
+    font-size: $font-size-sm;
+    color: $text-color-muted;
+
+    a {
+      color: $text-color-secondary;
+
+      &:hover {
+        color: $primary-color;
+      }
+    }
+  }
+
+  h2,
+  #page_title {
+    margin: 0;
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-semibold;
+    color: $text-color;
+  }
+
+  #titlebar_right {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $space-2;
+    align-items: center;
+
+    // `display: contents` lets action_items flatten into titlebar_right's flex
+    // flow. Without this, .action_items would wrap as one block beside Filters,
+    // and its own children would wrap *inside* that block — breaking the left
+    // alignment with the Filters button on a second row.
+    .action_items {
+      display: contents;
+    }
+
+    .action_item {
+      display: inline-flex;
+    }
+  }
+}
+
+#main_content_wrapper {
+  flex: 1 1 auto;
+  min-width: 0; // allow shrink below content width (prevents overflow)
+}
+
+#main_content {
+  background-color: $surface-0;
+  border-radius: $border-radius-card;
+  box-shadow: $shadow-sm;
+  padding: $space-4;
+
+  @include media-up(md) {
+    padding: $space-5;
+  }
+}
+
+// On edit / view / new pages, flatten the card at mobile sizes so the form
+// or attributes table reaches the viewport edges.
+body.show,
+body.edit,
+body.new {
+  @include media-down(md) {
+    #main_content {
+      padding: 0;
+      border-radius: 0;
+      box-shadow: none;
+    }
+  }
+}
+
+// #sidebar layout now lives in components/_filter_drawer.scss.

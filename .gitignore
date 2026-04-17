@@ -1,0 +1,66 @@
+# Ruby gem build artifacts
+*.gem
+pkg/
+.bundle/
+Gemfile.lock
+
+# Bundler
+vendor/bundle/
+
+# Test / coverage
+coverage/
+spec/reports/
+spec/examples.txt
+test/tmp/
+test/version_tmp/
+tmp/
+.rspec_status
+
+# Documentation
+doc/
+.yardoc
+rdoc/
+
+# Byte-compiled / optimized files
+*.rbc
+.ruby-version
+.rvmrc
+
+# Node / npm (the gem is dual-published — package.json, but lockfiles stay out)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Sass cache
+.sass-cache/
+*.css.map
+*.scss.map
+
+# OS cruft
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+*~
+*.swp
+*.swo
+.*.un~
+
+# Editor / IDE
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.project
+.settings/
+.ruby-lsp/
+
+# Local env
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+logs/

@@ -1,0 +1,58 @@
+// Scope bar — index-page tabs like "All · Active · Archived".
+// AA emits as `ul.scopes > li > a` or `div.scopes > ul > li > a`, with
+// `li.selected` for the current one.
+
+.scopes,
+.table_tools .scopes {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 0;
+  padding: $space-1;
+  background-color: $surface-100;
+  border-radius: $border-radius;
+  list-style: none;
+  margin: 0;
+
+  > ul {
+    display: inline-flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  li {
+    display: inline-flex;
+
+    a {
+      display: inline-flex;
+      align-items: center;
+      padding: $space-1 $space-4;
+      font-size: $font-size-sm;
+      font-weight: $font-weight-medium;
+      color: $text-color-secondary;
+      border-radius: $radius-sm;
+      transition: background-color 0.15s ease, color 0.15s ease;
+
+      &:hover {
+        color: $text-color;
+        text-decoration: none;
+      }
+
+      .count {
+        margin-left: $space-2;
+        font-size: $font-size-xs;
+        color: $text-color-muted;
+      }
+    }
+
+    &.selected a {
+      background-color: $surface-0;
+      color: $text-color;
+      box-shadow: $shadow-xs;
+
+      .count {
+        color: $primary-color;
+      }
+    }
+  }
+}

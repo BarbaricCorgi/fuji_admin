@@ -1,0 +1,77 @@
+// Float labels — applied by fuji_admin/floats.js to text-like formtastic
+// wrappers inside `fieldset.inputs`. The label rests inside the input at
+// baseline, then animates up to sit on the top border when the input has
+// focus or a value (matching PrimeReact Verona's float label pattern).
+//
+// Only `.fuji-float` wrappers get this treatment; selects, booleans, radios
+// and date pickers keep their stacked label so their native controls stay
+// predictable.
+
+fieldset.inputs ol > li.fuji-float {
+  position: relative;
+
+  // The original fieldset rule adds label { margin-bottom: $space-2 } —
+  // override so the absolute label doesn't drag layout.
+  > label {
+    position: absolute;
+    top: calc(#{$input-padding-y} + 1px);  // aligns with input's text line
+    left: calc(#{$input-padding-x} - #{$space-1} + 1px);
+    padding: 0 $space-1;
+    margin: 0;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-regular;
+    line-height: 1.4;
+    color: $text-color-muted;
+    background-color: $surface-0; // masks input border when floated
+    pointer-events: none;
+    text-transform: none;
+    letter-spacing: 0;
+    white-space: nowrap;
+    max-width: calc(100% - #{$space-4});
+    overflow: hidden;
+    text-overflow: ellipsis;
+    z-index: 1;
+    transition:
+      top 0.18s ease,
+      font-size 0.18s ease,
+      color 0.18s ease;
+
+    // The required asterisk / abbr should sit tightly next to the label.
+    abbr {
+      border: 0;
+      text-decoration: none;
+      color: inherit;
+      margin-left: $space-1;
+    }
+  }
+
+  // Floated state — label sits on the input's top border, smaller & coloured.
+  &.fuji-float-focused > label,
+  &.fuji-float-filled > label {
+    top: calc(-#{$space-1} - 1px);  // straddles the input top border
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+  }
+
+  &.fuji-float-focused > label {
+    color: $primary-color;
+  }
+
+  &.fuji-float-filled:not(.fuji-float-focused) > label {
+    color: $text-color-secondary;
+  }
+
+  // Hints under the input; same spacing whether floated or resting.
+  > .inline-hints,
+  > .inline-errors {
+    margin-top: $space-1;
+  }
+}
+
+// Textarea variant — label docks at the top of the textarea when resting,
+// not centred (textareas are tall so centring would look awkward).
+fieldset.inputs ol > li.text.fuji-float {
+  > label {
+    top: calc(#{$input-padding-y} + 1px);
+  }
+}

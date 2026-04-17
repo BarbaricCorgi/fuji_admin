@@ -1,0 +1,59 @@
+// Status tags — AA renders as `<span class="status_tag <value>">` where
+// `<value>` is the dasherised string (e.g. "yes", "published", "draft").
+// We style a neutral default plus conventional semantic variants.
+
+.status_tag {
+  display: inline-flex;
+  align-items: center;
+  padding: $space-1 $space-3;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  border-radius: $radius-full;
+  background-color: $surface-200;
+  color: $text-color-secondary;
+  line-height: 1.4;
+  white-space: nowrap;
+
+  // Semantic variants (AA dasherises the value into the class name).
+  &.yes,
+  &.ok,
+  &.active,
+  &.published,
+  &.completed,
+  &.approved,
+  &.success {
+    background-color: rgba($color-success, 0.12);
+    color: darken($color-success, 8%);
+  }
+
+  &.no,
+  &.error,
+  &.failed,
+  &.rejected,
+  &.danger {
+    background-color: rgba($color-danger, 0.12);
+    color: $color-danger;
+  }
+
+  &.warning,
+  &.pending,
+  &.draft {
+    background-color: rgba($color-warning, 0.14);
+    color: darken($color-warning, 10%);
+  }
+
+  &.info,
+  &.processing,
+  &.running {
+    background-color: rgba($color-info, 0.12);
+    color: darken($color-info, 8%);
+  }
+
+  &.empty {
+    background-color: transparent;
+    color: $text-color-muted;
+    font-style: italic;
+  }
+}
