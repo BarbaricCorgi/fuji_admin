@@ -1,0 +1,600 @@
+// Palette switcher — floating trigger + panel + live palette overrides.
+//
+// Live overrides repaint primary-coloured components based on `--fuji-primary`
+// (set by fuji_admin/palettes.js on <html>). We use `color-mix()` for tinted
+// variants so a single var powers the whole ramp (hover = darken, surface tint
+// = mix with white, focus ring = mix with transparent).
+
+// --- Live overrides -------------------------------------------------------
+// Each rule references `var(--fuji-primary, <fallback>)` so the fallback
+// (our default Fuji Admin indigo) shows when no palette has been chosen.
+
+$fuji-primary: var(--fuji-primary, #{$primary-color});
+
+// Auto-derived surfaces + text, tinted from the active primary. Defined at
+// :root with color-mix() so every palette gets a coherent mono-chromatic look
+// without requiring hand-curation. JS sets explicit values on <html> for the
+// handful of curated themes (editorial-navy, coastal-sage, etc.) which
+// override these defaults naturally via the cascade.
+:root {
+  --fuji-text:          color-mix(in srgb, #{$fuji-primary} 20%, black);
+  --fuji-text-muted:    color-mix(in srgb, #{$fuji-primary} 45%, black);
+  --fuji-surface:       color-mix(in srgb, #{$fuji-primary}  5%, white);
+  --fuji-surface-alt:   color-mix(in srgb, #{$fuji-primary} 10%, white);
+  --fuji-border:        color-mix(in srgb, #{$fuji-primary} 22%, white);
+}
+
+// Primary buttons — keep text white regardless of palette/theme.
+form input[type="submit"],
+a.button,
+a:link.button,
+a:visited.button,
+fieldset.actions > ol > li.button_action > button,
+#title_bar #titlebar_right .action_item > a,
+#title_bar #titlebar_right .dropdown_menu > a.dropdown_menu_button,
+.batch_actions_selector > a,
+.table_tools .batch_actions_selector > a,
+.dropdown_menu.batch_actions_selector > a.dropdown_menu_button,
+.table_tools .dropdown_menu.batch_actions_selector > a.dropdown_menu_button,
+form.filter_form input[type="submit"] {
+  background-color: #{$fuji-primary};
+  border-color: #{$fuji-primary};
+  color: #{$primary-color-text};
+
+  &:hover {
+    background-color: color-mix(in srgb, #{$fuji-primary} 82%, black);
+    border-color: color-mix(in srgb, #{$fuji-primary} 82%, black);
+    color: #{$primary-color-text};
+  }
+
+  &::after {
+    border-top-color: #{$primary-color-text};
+  }
+}
+
+// Links
+a {
+  color: #{$fuji-primary};
+
+  &:hover {
+    color: color-mix(in srgb, #{$fuji-primary} 82%, black);
+  }
+}
+
+// Sidebar active nav item
+body.active_admin.logged_in #tabs > li.current > a {
+  color: #{$fuji-primary};
+  background-color: color-mix(in srgb, #{$fuji-primary} 10%, white);
+  border-left-color: #{$fuji-primary};
+}
+
+// Filter chip pills (outside drawer)
+.fuji-filter-chips__pill {
+  background-color: color-mix(in srgb, #{$fuji-primary} 10%, white);
+  border-color: color-mix(in srgb, #{$fuji-primary} 24%, white);
+  color: color-mix(in srgb, #{$fuji-primary} 70%, black);
+
+  .fuji-filter-chips__remove {
+    background-color: color-mix(in srgb, #{$fuji-primary} 18%, white);
+    color: color-mix(in srgb, #{$fuji-primary} 70%, black);
+  }
+
+  &:hover {
+    background-color: color-mix(in srgb, #{$fuji-primary} 18%, white);
+    border-color: color-mix(in srgb, #{$fuji-primary} 38%, white);
+  }
+}
+
+// Watchlist bar pills and "Add" button
+.fuji-watchlist-bar__item {
+  background-color: color-mix(in srgb, #{$fuji-primary} 10%, white);
+  border-color: color-mix(in srgb, #{$fuji-primary} 24%, white);
+  color: color-mix(in srgb, #{$fuji-primary} 70%, black);
+}
+
+.fuji-watchlist-bar__remove {
+  background-color: color-mix(in srgb, #{$fuji-primary} 18%, white);
+  color: color-mix(in srgb, #{$fuji-primary} 70%, black);
+}
+
+.fuji-watchlist-bar__add {
+  background-color: #{$fuji-primary};
+  border-color: #{$fuji-primary};
+
+  &:hover {
+    background-color: color-mix(in srgb, #{$fuji-primary} 82%, black);
+    border-color: color-mix(in srgb, #{$fuji-primary} 82%, black);
+  }
+}
+
+// Current filters in drawer
+body.active_admin #sidebar li.current_filter {
+  background-color: color-mix(in srgb, #{$fuji-primary} 10%, white);
+  border-color: color-mix(in srgb, #{$fuji-primary} 24%, white);
+
+  b {
+    color: color-mix(in srgb, #{$fuji-primary} 70%, black);
+  }
+}
+
+// Filter drawer toggle — active state
+.fuji-filters-toggle--active {
+  background-color: color-mix(in srgb, #{$fuji-primary} 10%, white);
+  border-color: color-mix(in srgb, #{$fuji-primary} 30%, white);
+  color: color-mix(in srgb, #{$fuji-primary} 70%, black);
+
+  .fuji-filters-toggle__icon {
+    color: #{$fuji-primary};
+  }
+}
+
+.fuji-filters-toggle__count {
+  background-color: #{$fuji-primary};
+}
+
+// Filter form submit (inside drawer)
+form.filter_form input[type="submit"] {
+  background-color: #{$fuji-primary};
+  border-color: #{$fuji-primary};
+}
+
+// Scopes — selected tab count
+.scopes li.selected a .count,
+.table_tools .scopes li.selected a .count {
+  color: #{$fuji-primary};
+}
+
+// Pagination current page
+.pagination span.page.current,
+.pagination span.current {
+  background-color: #{$fuji-primary};
+  border-color: #{$fuji-primary};
+
+  &:hover {
+    background-color: color-mix(in srgb, #{$fuji-primary} 82%, black);
+    border-color: color-mix(in srgb, #{$fuji-primary} 82%, black);
+  }
+}
+
+// Row-action dropdown trigger — active/hover state
+.fuji-row-actions__trigger:hover,
+.fuji-row-actions__trigger[aria-expanded="true"] {
+  background-color: color-mix(in srgb, #{$fuji-primary} 10%, white);
+  border-color: color-mix(in srgb, #{$fuji-primary} 30%, white);
+  color: color-mix(in srgb, #{$fuji-primary} 70%, black);
+}
+
+.fuji-row-actions__item:hover {
+  color: color-mix(in srgb, #{$fuji-primary} 70%, black);
+}
+
+// Float label — focused state
+fieldset.inputs ol > li.fuji-float.fuji-float-focused > label {
+  color: #{$fuji-primary};
+}
+
+// Form inputs — focused border + ring
+form input[type="text"]:focus,
+form input[type="email"]:focus,
+form input[type="password"]:focus,
+form input[type="number"]:focus,
+form input[type="search"]:focus,
+form input[type="tel"]:focus,
+form input[type="url"]:focus,
+form input[type="date"]:focus,
+form input[type="datetime-local"]:focus,
+form textarea:focus,
+form select:focus {
+  border-color: #{$fuji-primary};
+  box-shadow: 0 0 0 3px color-mix(in srgb, #{$fuji-primary} 18%, transparent);
+}
+
+// Status tags — selected row in index tables
+table.index_table tbody tr.selected {
+  background-color: color-mix(in srgb, #{$fuji-primary} 8%, white);
+}
+
+// --- Full-theme overrides -------------------------------------------------
+// Only applied when JS has set the `--fuji-surface` / `--fuji-text` / etc.
+// custom properties (i.e. the current palette declared a `theme` block).
+// Each rule uses `var(...)` with the compiled-time default as fallback, so
+// non-themed palettes fall through to the baseline fuji look.
+
+// Match base specificity — layouts/_wrapper.scss uses `body.active_admin`
+// which beats a plain `body` selector.
+body.active_admin {
+  background-color: var(--fuji-surface-alt, #{$body-background});
+  color: var(--fuji-text, #{$text-color});
+}
+
+// Top header bar
+body.active_admin.logged_in > .header,
+body.active_admin.logged_in #header {
+  background-color: var(--fuji-surface, #{$surface-0});
+  border-bottom-color: var(--fuji-border, #{$surface-border});
+
+  h1.site_title,
+  .site_title {
+    color: var(--fuji-text, #{$text-color});
+    border-right-color: var(--fuji-border, #{$surface-border});
+  }
+
+  #utility_nav li a {
+    color: var(--fuji-text-muted, #{$text-color-secondary});
+
+    &:hover {
+      color: var(--fuji-text, #{$text-color});
+      background-color: var(--fuji-surface-alt, #{$surface-100});
+    }
+  }
+}
+
+// Sidebar nav (#tabs). Base rule in layouts/_sidebar.scss compiles to three
+// selector branches — match all three so our override wins at equal specificity
+// across the cascade (otherwise `body.active_admin.logged_in .header #tabs`
+// at (0,3,2) beats a single `body.active_admin.logged_in #tabs` at (0,2,2)).
+body.active_admin.logged_in #tabs,
+body.active_admin.logged_in #header #tabs,
+body.active_admin.logged_in .header #tabs {
+  background-color: var(--fuji-surface, #{$surface-0});
+  border-right-color: var(--fuji-border, #{$surface-border});
+
+  > li > a {
+    color: var(--fuji-text-muted, #{$text-color-secondary});
+
+    &:hover {
+      background-color: var(--fuji-surface-alt, #{$surface-100});
+      color: var(--fuji-text, #{$text-color});
+    }
+  }
+
+  > li.has_nested > ul {
+    background-color: var(--fuji-surface-alt, #{$surface-50});
+
+    li a {
+      color: var(--fuji-text-muted, #{$text-color-secondary});
+
+      &:hover {
+        background-color: color-mix(in srgb, var(--fuji-surface, #{$surface-0}) 80%, black 0%);
+        color: var(--fuji-text, #{$text-color});
+      }
+    }
+  }
+}
+
+// Main content card
+#main_content {
+  background-color: var(--fuji-surface, #{$surface-0});
+}
+
+// Title bar
+#title_bar {
+  h2,
+  #page_title {
+    color: var(--fuji-text, #{$text-color});
+  }
+
+  .breadcrumb {
+    color: var(--fuji-text-muted, #{$text-color-muted});
+
+    a { color: var(--fuji-text-muted, #{$text-color-secondary}); }
+  }
+}
+
+// Panels & cards
+.panel,
+.sidebar_section.panel {
+  background-color: var(--fuji-surface, #{$surface-0});
+  border-color: var(--fuji-border, #{$surface-border});
+
+  > h3 {
+    color: var(--fuji-text, #{$text-color});
+    border-bottom-color: var(--fuji-border, #{$surface-200});
+  }
+}
+
+#sidebar .sidebar_section.panel > h3 {
+  background-color: var(--fuji-surface-alt, #{$surface-50});
+  color: var(--fuji-text-muted, #{$text-color-secondary});
+}
+
+// Fieldset inputs (form cards with legend header)
+form fieldset.inputs {
+  background-color: var(--fuji-surface, #{$surface-0});
+  border-color: var(--fuji-border, #{$surface-border});
+
+  legend {
+    background-color: var(--fuji-surface-alt, #{$surface-50});
+    color: var(--fuji-text, #{$text-color});
+    border-bottom-color: var(--fuji-border, #{$surface-200});
+  }
+
+  ol > li {
+    > label {
+      color: var(--fuji-text-muted, #{$text-color-secondary});
+    }
+
+    p.inline-hints,
+    .inline-hints {
+      color: var(--fuji-text-muted, #{$text-color-muted});
+    }
+  }
+}
+
+// Text inputs
+form input[type="text"],
+form input[type="email"],
+form input[type="password"],
+form input[type="number"],
+form input[type="search"],
+form input[type="tel"],
+form input[type="url"],
+form input[type="date"],
+form textarea,
+form select {
+  background-color: var(--fuji-surface, #{$surface-0});
+  border-color: var(--fuji-border, #{$surface-border});
+  color: var(--fuji-text, #{$text-color});
+
+  &::placeholder { color: var(--fuji-text-muted, #{$text-color-muted}); }
+}
+
+// Tables
+table.index_table,
+.panel .panel_contents table:not(.index_table):not(.ui-datepicker-calendar),
+#main_content > table:not(.index_table):not(.ui-datepicker-calendar),
+#main_content table.summary-table {
+  background-color: var(--fuji-surface, #{$surface-0});
+
+  thead {
+    background-color: var(--fuji-surface-alt, #{$surface-50});
+
+    th {
+      color: var(--fuji-text-muted, #{$text-color-secondary});
+      border-bottom-color: var(--fuji-border, #{$surface-200});
+    }
+  }
+
+  tbody {
+    tr {
+      &:hover { background-color: var(--fuji-surface-alt, #{$surface-50}); }
+
+      td {
+        color: var(--fuji-text, #{$text-color});
+        border-bottom-color: var(--fuji-border, #{$surface-200});
+      }
+    }
+  }
+}
+
+// Attributes table
+.attributes_table table {
+  th {
+    color: var(--fuji-text-muted, #{$text-color-muted});
+    border-bottom-color: var(--fuji-border, #{$surface-200});
+  }
+
+  td {
+    color: var(--fuji-text, #{$text-color});
+    border-bottom-color: var(--fuji-border, #{$surface-200});
+  }
+
+  tr:hover {
+    background-color: var(--fuji-surface-alt, #{$surface-50});
+  }
+}
+
+// Scopes pill bar
+.scopes,
+.table_tools .scopes {
+  background-color: var(--fuji-surface-alt, #{$surface-100});
+
+  li a { color: var(--fuji-text-muted, #{$text-color-secondary}); }
+
+  li.selected a {
+    background-color: var(--fuji-surface, #{$surface-0});
+    color: var(--fuji-text, #{$text-color});
+  }
+}
+
+// Paragraphs / pagination info
+.pagination_information {
+  color: var(--fuji-text-muted, #{$text-color-muted});
+  border-top-color: var(--fuji-border, #{$surface-200});
+}
+
+.pagination a,
+.pagination span.page.current,
+.pagination span.current {
+  border-color: var(--fuji-border, #{$surface-border});
+}
+
+// Drawer
+body.active_admin #sidebar {
+  background-color: var(--fuji-surface, #{$surface-0});
+  border-left-color: var(--fuji-border, #{$surface-border});
+}
+
+.fuji-filters-drawer__header {
+  border-bottom-color: var(--fuji-border, #{$surface-200});
+}
+
+.fuji-filters-drawer__title {
+  color: var(--fuji-text, #{$text-color});
+}
+
+body.active_admin #sidebar .sidebar_section.panel:not(#filters_sidebar_section) {
+  background-color: var(--fuji-surface-alt, #{$surface-50});
+  border-bottom-color: var(--fuji-border, #{$surface-200});
+
+  .panel_contents > div > h4 {
+    color: var(--fuji-text-muted, #{$text-color-muted});
+  }
+}
+
+// Watchlist bar
+.fuji-watchlist-bar {
+  background-color: var(--fuji-surface-alt, #{$surface-50});
+  border-color: var(--fuji-border, #{$surface-border});
+
+  &__label { color: var(--fuji-text-muted, #{$text-color-muted}); }
+  &__empty { color: var(--fuji-text-muted, #{$text-color-muted}); }
+}
+
+// Download links
+.download_links {
+  color: var(--fuji-text-muted, #{$text-color-muted});
+  border-top-color: var(--fuji-border, #{$surface-200});
+
+  a {
+    background-color: var(--fuji-surface-alt, #{$surface-100});
+    color: var(--fuji-text-muted, #{$text-color-secondary});
+  }
+}
+
+// Flash banners — keep semantic colour but use themed text against surface
+.flash {
+  border-color: var(--fuji-border, transparent);
+}
+
+// Footer
+#footer,
+.footer {
+  color: var(--fuji-text-muted, #{$text-color-muted});
+}
+
+// --- Switcher UI ----------------------------------------------------------
+
+.fuji-palette-switcher {
+  position: fixed;
+  right: $space-5;
+  bottom: $space-5;
+  z-index: 60;
+  font-family: $font-family-body;
+
+  &__trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    background-color: $surface-0;
+    border: 1px solid $surface-border;
+    border-radius: $radius-full;
+    box-shadow: $shadow-md;
+    color: $text-color-secondary;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
+
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: $shadow-lg;
+      color: $text-color;
+    }
+
+    &:focus-visible {
+      outline: none;
+      box-shadow: $shadow-focus;
+    }
+  }
+
+  &__panel {
+    position: absolute;
+    right: 0;
+    bottom: calc(100% + #{$space-2});
+    width: 320px;
+    max-height: #{"min(70vh, 560px)"};  // interpolated so SassC emits raw CSS min()
+    overflow-y: auto;
+    background-color: $surface-0;
+    border: 1px solid $surface-border;
+    border-radius: $border-radius-card;
+    box-shadow: $shadow-xl;
+    padding: $space-4;
+
+    &[hidden] {
+      display: none;
+    }
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: $space-3;
+  }
+
+  &__title {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: $text-color-muted;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $space-2;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    background: $surface-0;
+    border: 1px solid $surface-border;
+    border-radius: $border-radius;
+    overflow: hidden;
+    cursor: pointer;
+    transition:
+      transform 0.15s ease,
+      border-color 0.15s ease,
+      box-shadow 0.15s ease;
+    text-align: left;
+
+    &:hover {
+      transform: translateY(-1px);
+      border-color: $text-color-secondary;
+      box-shadow: $shadow-sm;
+    }
+
+    &--active {
+      border-color: var(--fuji-primary, #{$primary-color});
+      box-shadow:
+        0 0 0 2px color-mix(in srgb, var(--fuji-primary, #{$primary-color}) 30%, transparent);
+    }
+  }
+
+  &__swatches {
+    display: flex;
+    height: 28px;
+  }
+
+  &__bar {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  &__label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $space-1;
+    padding: $space-1 $space-2;
+    border-top: 1px solid $surface-200;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    color: $text-color;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  &__badge {
+    flex-shrink: 0;
+    font-size: $font-size-xs;
+    line-height: 1;
+    color: $primary-color;
+    opacity: 0.7;
+  }
+}

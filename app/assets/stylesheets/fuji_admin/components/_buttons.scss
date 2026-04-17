@@ -78,6 +78,18 @@ fieldset.actions > ol > li.button_action > button,
   @include fuji-button-primary;
 }
 
+// Batch-actions dropdown button is also a `.dropdown_menu`, which would
+// otherwise pick up the secondary (outlined) style from _dropdown_menu.scss
+// at higher specificity. Re-apply primary with a specificity that wins.
+.dropdown_menu.batch_actions_selector > a.dropdown_menu_button,
+.table_tools .dropdown_menu.batch_actions_selector > a.dropdown_menu_button {
+  @include fuji-button-primary;
+
+  &::after {
+    border-top-color: $primary-color-text;
+  }
+}
+
 // Secondary / cancel surface.
 form fieldset.buttons li.cancel a,
 form fieldset.actions li.cancel a,
