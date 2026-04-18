@@ -1,7 +1,7 @@
 // Float labels — applied by fuji_admin/floats.js to text-like formtastic
 // wrappers inside `fieldset.inputs`. The label rests inside the input at
 // baseline, then animates up to sit on the top border when the input has
-// focus or a value (matching PrimeReact Verona's float label pattern).
+// focus or a value (standard float-label pattern).
 //
 // Only `.fuji-float` wrappers get this treatment; selects, booleans, radios
 // and date pickers keep their stacked label so their native controls stay
@@ -22,7 +22,7 @@ fieldset.inputs ol > li.fuji-float {
     font-weight: $font-weight-regular;
     line-height: 1.4;
     color: $text-color-muted;
-    background-color: $surface-0; // masks input border when floated
+    background-color: var(--fuji-surface, #{$surface-0}); // masks input border when floated; palette-aware
     pointer-events: none;
     text-transform: none;
     letter-spacing: 0;
@@ -68,10 +68,3 @@ fieldset.inputs ol > li.fuji-float {
   }
 }
 
-// Textarea variant — label docks at the top of the textarea when resting,
-// not centred (textareas are tall so centring would look awkward).
-fieldset.inputs ol > li.text.fuji-float {
-  > label {
-    top: calc(#{$input-padding-y} + 1px);
-  }
-}

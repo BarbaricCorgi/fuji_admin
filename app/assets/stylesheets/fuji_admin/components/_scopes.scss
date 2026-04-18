@@ -4,7 +4,7 @@
 
 .scopes,
 .table_tools .scopes {
-  display: inline-flex;
+  display: flex;
   flex-wrap: wrap;
   gap: 0;
   padding: $space-1;
@@ -13,8 +13,13 @@
   list-style: none;
   margin: 0;
 
+  @include media-down(md) {
+    align-self: flex-start;
+  }
+
   > ul {
-    display: inline-flex;
+    display: flex;
+    flex-wrap: wrap;
     list-style: none;
     padding: 0;
     margin: 0;

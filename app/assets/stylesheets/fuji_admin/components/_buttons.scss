@@ -68,9 +68,11 @@
 
 // Primary button surface — form submit, action item buttons, batch actions.
 form input[type="submit"],
+form button[type="submit"],
 a.button,
 a:link.button,
 a:visited.button,
+button.button,
 fieldset.actions > ol > li.button_action > button,
 #title_bar #titlebar_right .action_item > a,
 .batch_actions_selector > a,

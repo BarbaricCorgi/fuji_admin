@@ -1,6 +1,6 @@
-// Color tokens. Values seeded from Verona (PrimeReact) for a coherent starting
-// palette. Override any of these by redeclaring the variable *before* the
-// fuji_admin import in the host app's active_admin.scss.
+// Color tokens — a coherent neutral + indigo starting palette. Override any
+// of these by redeclaring the variable *before* the fuji_admin import in
+// the host app's active_admin.scss.
 
 // Surfaces — neutral backgrounds & borders
 $surface-0:      #ffffff !default;  // card
@@ -22,7 +22,7 @@ $text-color:           #212121 !default;
 $text-color-secondary: #616161 !default;
 $text-color-muted:     #9e9e9e !default;
 
-// Primary — deep indigo/blue (Verona primary ramp)
+// Primary — deep indigo/blue
 $primary-50:   #f2f5fc !default;
 $primary-100:  #d4daed !default;
 $primary-200:  #b2bce0 !default;

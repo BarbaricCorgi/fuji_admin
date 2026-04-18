@@ -25,6 +25,33 @@
   }
 }
 
+// Mobile: flatten panels so they read as plain sections inside the outer
+// #main_content card, reclaiming the horizontal space eaten by nested card
+// chrome. `.sidebar_section.panel` is excluded — it uses a different layout.
+.panel:not(.sidebar_section) {
+  @include media-down(md) {
+    background-color: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    margin-bottom: 0;
+    border-bottom: 1px solid $surface-200;
+
+    &:last-child {
+      border-bottom: 0;
+    }
+
+    > h3 {
+      padding: $space-4 0 $space-2;
+      border-bottom: 0;
+    }
+
+    .panel_contents {
+      padding: 0 0 $space-4;
+    }
+  }
+}
+
 // Inside the sidebar, tighten the defaults slightly.
 #sidebar .sidebar_section.panel {
   box-shadow: none;

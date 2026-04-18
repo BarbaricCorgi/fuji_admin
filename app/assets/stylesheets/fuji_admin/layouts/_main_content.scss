@@ -101,14 +101,15 @@ body.new {
   }
 }
 
-// On edit / view / new pages, flatten the card at mobile sizes so the form
-// or attributes table reaches the viewport edges.
+// On edit / view / new pages, flatten the card at mobile sizes: drop the
+// border-radius and shadow but keep horizontal padding so content has a
+// gutter (flat panels below no longer provide their own).
 body.show,
 body.edit,
 body.new {
   @include media-down(md) {
     #main_content {
-      padding: 0;
+      padding: 0 $content-padding-mobile;
       border-radius: 0;
       box-shadow: none;
     }

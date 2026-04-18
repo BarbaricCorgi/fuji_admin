@@ -2,8 +2,8 @@
 // and native selects. Select2 and date pickers get their own components.
 //
 // Sizing approach: pad to ~40px total height (10px y / 12px x + 1px borders +
-// ~1.4 line-height on 14px text). Matches Verona's InputText aesthetic so
-// stacked forms breathe and feel touch-friendly.
+// ~1.4 line-height on 14px text) so stacked forms breathe and feel
+// touch-friendly.
 
 $input-padding-y: 10px;
 $input-padding-x: $space-3;

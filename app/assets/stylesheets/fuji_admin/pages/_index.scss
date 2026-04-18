@@ -17,10 +17,6 @@
     border-radius: 0;
   }
 
-  .paginated_collection_contents {
-    overflow-x: auto;
-  }
-
   .pagination_information,
   .pagination {
     padding: $space-3 0;
@@ -29,6 +25,10 @@
   .pagination_information {
     border-top: 1px solid $surface-200;
   }
+}
+
+.paginated_collection_contents {
+  overflow-x: auto;
 }
 
 // Batch-actions checkbox column width.

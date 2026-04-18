@@ -1,8 +1,29 @@
 # Fuji Admin
 
-A responsive [ActiveAdmin](https://github.com/activeadmin/activeadmin) theme.
+A responsive, modern theme for [ActiveAdmin](https://github.com/activeadmin/activeadmin).
 Clean card-based layout, slide-in filter drawer, float-label inputs,
 row-action dropdowns, and a live palette switcher with 30 built-in palettes.
+
+## Why fuji_admin
+
+Fuji Admin drops onto an existing ActiveAdmin app without touching a single
+line of your `app/admin/` files — every existing resource, filter, form, and
+table immediately looks a decade newer. It replaces AA's piecemeal defaults
+with a cohesive design system — Saira typography, card-based layout, proper
+elevation, and consistent spacing tokens — rather than painting over the
+framework. A runtime palette switcher lets you (or your users) repaint every
+primary surface, button, link, and chip live, with 30 curated palettes
+available and derived tinted surfaces via `color-mix()` so no palette ever
+feels "recolored". Forms get animated floating labels on text inputs and
+textareas, refactored fieldset chrome, and clean button styling without
+any Formtastic changes. Mobile posture is taken seriously: panels flatten
+into sections, index tables switch to compact padding with opt-in
+column-wrapping, and wide tables scroll horizontally instead of collapsing.
+The filter sidebar is rethought as a right-side drawer with active-filter
+chips above the table, reclaiming huge amounts of horizontal space for wide
+index pages. Every design token (color, shadow, radius, space, font) is an
+overridable SCSS variable, so one line in your `active_admin.scss` can rebrand
+the whole app.
 
 ## Features
 
@@ -11,12 +32,12 @@ row-action dropdowns, and a live palette switcher with 30 built-in palettes.
 - **Filter drawer** — AA's `#sidebar` is turned into a right-side slide-in
   panel with a "Filters" toggle in the title bar. Includes a chip strip
   above the table showing each active Ransack filter (click × to remove).
-- **Float labels** on text inputs, matching the Verona feel.
+- **Float labels** on text inputs and textareas.
 - **Row-action dropdown** — 2+ row actions collapse into a single `⋯`
   menu per row, rendered above any clipping parents via `position: fixed`.
-- **Palette switcher** — 30 palettes (Coolors-trending), 8 of them curated
-  full themes that repaint surfaces + text + borders. Non-themed palettes
-  auto-derive tinted surfaces from the primary via `color-mix()`.
+- **Palette switcher** — 30 palettes, 8 of them curated full themes that
+  repaint surfaces + text + borders. Non-themed palettes auto-derive tinted
+  surfaces from the primary via `color-mix()`.
 - **Refactored form chrome** — fieldset legends rendered as proper card
   headers, not floating `<legend>` text over borders.
 - **Full component set** — buttons, inputs, selects, Select2, jQuery UI
@@ -29,43 +50,45 @@ row-action dropdowns, and a live palette switcher with 30 built-in palettes.
 - Ruby `>= 3.1.0`
 - ActiveAdmin `>= 3.0`, `< 4.0`
 
-## Installation
+## Install in an existing ActiveAdmin project
 
-In your host app's `Gemfile`:
+1. Add to your `Gemfile`:
 
-```ruby
-gem "fuji_admin", "~> 0.1"
-```
+   ```ruby
+   gem "fuji_admin", "~> 0.1"
+   ```
 
-Then:
+   ```bash
+   bundle install
+   ```
 
-```bash
-bundle install
-```
+2. Import the stylesheet in `app/assets/stylesheets/active_admin.scss`:
 
-### Asset imports
+   ```scss
+   @import "fuji_admin/base";
+   ```
 
-In `app/assets/stylesheets/active_admin.scss`:
+3. Require the JavaScript in `app/assets/javascripts/active_admin.js`:
 
-```scss
-@import "fuji_admin/base";
-```
+   ```javascript
+   //= require fuji_admin/base
+   ```
 
-In `app/assets/javascripts/active_admin.js`:
+4. Restart the Rails server. That's it — your existing resources now render
+   with the fuji theme.
 
-```javascript
-//= require fuji_admin/base
-```
+No changes to your `app/admin/*.rb` files are required. If you were
+previously using a different theme (e.g. `arctic_admin`), remove its gem and
+asset imports to avoid conflicting styles.
 
-## Configuration
+### Optional configuration
 
-Add a Rails initializer — all attributes are optional.
+All attributes are optional.
 
 ```ruby
 # config/initializers/fuji_admin.rb
 FujiAdmin.configure do |config|
-  # Id of the palette to apply before any user selection is stored.
-  # Must match one of the ids in app/assets/javascripts/fuji_admin/palettes.js.
+  # Palette applied before any user selection is stored.
   config.default_palette = "forest-meadow"
 
   # Render the floating palette-picker UI. Defaults to false. Flip on in
@@ -76,6 +99,116 @@ end
 
 Configuration is surfaced to the browser via `<meta>` tags injected into
 ActiveAdmin's `<head>` — no host-layout changes required.
+
+## Choosing a palette
+
+You have three ways to apply a palette. Pick whichever fits your workflow.
+
+### 1. Live-preview with the palette picker (development)
+
+Flip `config.palette_picker = true` in the initializer and reload. A small
+floating trigger appears in the bottom-right corner; opening it shows all 30
+palettes with swatches. Click one and the entire UI repaints instantly — no
+reload. Your selection is persisted to `localStorage` for that browser, so
+you can use it to audition palettes when picking your default.
+
+### 2. Set a project-wide default
+
+Once you've chosen a palette, set its `id` in the initializer:
+
+```ruby
+FujiAdmin.configure do |config|
+  config.default_palette = "coastal-sage"
+end
+```
+
+This palette is applied for every user who hasn't picked their own via the
+runtime picker. Leaving `palette_picker = false` in production means the
+default is the *only* palette used, which is usually what you want for a
+consistent brand.
+
+### 3. Bundled palette IDs
+
+Use any of these as `default_palette`:
+
+| ID                | Tone                          |
+| ----------------- | ----------------------------- |
+| `fuji-default`    | Deep indigo (fuji base)       |
+| `navy-amber`      | Teal + amber accents          |
+| `warm-sunset`     | Terracotta + teal             |
+| `forest-meadow`   | Olive & green earth tones     |
+| `dusty-rose`      | Muted pink + maroon           |
+| `ocean-blue`      | Ocean cyans                   |
+| `terracotta`      | Warm terracotta + sage        |
+| `coastal-sage`    | Sage-green neutral *(theme)*  |
+| `royal-purple`    | Deep violet                   |
+| `editorial-navy`  | Slate navy + off-white *(theme)* |
+| `cheerful`        | Primary-bright multi          |
+| `crimson-spice`   | Crimson + saffron             |
+| `mint-ocean`      | Mint → deep-cyan ramp         |
+| `burgundy-gold`   | Burgundy + gold *(theme)*     |
+| `scarlet`         | Monochrome scarlet            |
+| `teal-warmth`     | Teal + warm ochre             |
+| `deep-cyan`       | Deep cyan + sand *(theme)*    |
+| `tropical`        | Tropical aqua + coral *(theme)* |
+| `spice-road`      | Magenta + orange              |
+| `sunset-gradient` | Full spectrum sunset          |
+| `coral-reef`      | Coral + seafoam               |
+| `electric`        | Vivid cyberpunk               |
+| `muted-taupe`     | Grey-purple taupe *(theme)*   |
+| `warm-lilac`      | Lilac ramp                    |
+| `rose-garden`     | Rose + pink                   |
+| `forest-deep`     | Deep forest                   |
+| `pink-sunset`     | Soft pinks                    |
+| `twilight-purple` | Deep indigo-purple            |
+| `olive-gold`      | Olive + mustard *(theme)*     |
+| `sage-terracotta` | Sage + terracotta *(theme)*   |
+| `indigo-glow`     | Vivid indigo + multi          |
+
+Palettes marked *(theme)* are curated full themes with hand-picked surface,
+text, and border colors. Un-marked palettes auto-derive tinted surfaces from
+the primary at runtime.
+
+## Customising palettes
+
+The 30 bundled palettes live in
+`app/assets/javascripts/fuji_admin/palettes.js`. Each entry has:
+
+```javascript
+{
+  id:      "navy-amber",
+  name:    "Navy & Amber",
+  primary: "#219ebc",
+  swatch:  ["#8ecae6","#219ebc","#023047","#ffb703","#fb8500"],
+  theme:   {                        // optional — promotes to a full theme
+    surface:     "#fdfcdc",
+    surfaceAlt:  "#f0ebc5",
+    text:        "#003844",
+    textMuted:   "#00afb5",
+    border:      "#e6e3b5"
+  }
+}
+```
+
+Palettes without a `theme` block get auto-derived surfaces + text by mixing
+the `primary` with white / black at runtime via `color-mix()`, so every
+palette reads as a coherent mini-theme.
+
+To override the theme's design tokens wholesale (font, radii, spacing,
+shadows, base colors), declare the SCSS variable *before* the fuji_admin
+import:
+
+```scss
+// app/assets/stylesheets/active_admin.scss
+$primary-color: #2bb673;
+$font-family-body: "Inter", sans-serif;
+$border-radius-card: 12px;
+
+@import "fuji_admin/base";
+```
+
+Every variable in `fuji_admin/variables/*` is marked `!default`, so your
+declaration wins.
 
 ## Development against a host app
 
@@ -109,31 +242,6 @@ Kamal never see it and fall back to the github source. Edits in
 When you're ready to ship, flip the Gemfile back to
 `gem "fuji_admin", "~> 0.1"`, publish a new version (`gem build && gem push`),
 and run `bundle update fuji_admin` in the host.
-
-## Customising palettes
-
-The 30 bundled palettes live in
-`app/assets/javascripts/fuji_admin/palettes.js`. Each has:
-
-```javascript
-{
-  id:      "navy-amber",
-  name:    "Navy & Amber",
-  primary: "#219ebc",
-  swatch:  ["#8ecae6","#219ebc","#023047","#ffb703","#fb8500"],
-  theme:   {                        // optional — promotes to a full theme
-    surface:     "#fdfcdc",
-    surfaceAlt:  "#f0ebc5",
-    text:        "#003844",
-    textMuted:   "#00afb5",
-    border:      "#e6e3b5"
-  }
-}
-```
-
-Palettes without a `theme` block get auto-derived surfaces + text by mixing
-the `primary` with white / black at runtime via `color-mix()`, so every
-palette reads as a coherent mini-theme.
 
 ## License
 
