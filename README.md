@@ -48,7 +48,8 @@ the whole app.
 ## Requirements
 
 - Ruby `>= 3.1.0`
-- ActiveAdmin `>= 3.0` (tested against 3.x and the 4.0 beta)
+- ActiveAdmin `>= 3.0`, `< 4.0` (AA 4 ships its own Tailwind-based theme
+  with a different asset pipeline — fuji_admin doesn't apply there yet)
 
 ## Install in an existing ActiveAdmin project
 
