@@ -16,8 +16,12 @@ module FujiAdmin
 
   module Rails
     class Engine < ::Rails::Engine
-      initializer "fuji_admin.active_admin_patch", after: :load_config_initializers do
-        require "fuji_admin/active_admin_patch" if defined?(::ActiveAdmin)
+      # Register meta tags after all initializers have run (so both
+      # FujiAdmin.configure and ActiveAdmin.setup have populated their state)
+      # and AA's namespaces are available to iterate.
+      config.after_initialize do
+        require "fuji_admin/active_admin_patch"
+        FujiAdmin.install_meta_tags!
       end
     end
   end
