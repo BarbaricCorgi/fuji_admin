@@ -34,5 +34,5 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
   s.required_ruby_version = '>= 3.1.0'
 
-  s.add_dependency 'activeadmin', ['>= 3.0', '< 4.0']
+  s.add_dependency 'activeadmin', '>= 3.0'
 end

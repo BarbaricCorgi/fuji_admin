@@ -48,7 +48,7 @@ the whole app.
 ## Requirements
 
 - Ruby `>= 3.1.0`
-- ActiveAdmin `>= 3.0`, `< 4.0`
+- ActiveAdmin `>= 3.0` (tested against 3.x and the 4.0 beta)
 
 ## Install in an existing ActiveAdmin project
 
