@@ -4,10 +4,6 @@ A responsive [ActiveAdmin](https://github.com/activeadmin/activeadmin) theme.
 Clean card-based layout, slide-in filter drawer, float-label inputs,
 row-action dropdowns, and a live palette switcher with 30 built-in palettes.
 
-Inspired by [arctic_admin](https://github.com/cprodhomme/arctic_admin) (SCSS
-structure) and [PrimeReact Verona](https://verona.primereact.org/) (visual
-language).
-
 ## Features
 
 - **Responsive layout** — fixed header + sidebar nav at `lg+`, auto-injected
@@ -138,13 +134,6 @@ The 30 bundled palettes live in
 Palettes without a `theme` block get auto-derived surfaces + text by mixing
 the `primary` with white / black at runtime via `color-mix()`, so every
 palette reads as a coherent mini-theme.
-
-## Credits
-
-- [arctic_admin](https://github.com/cprodhomme/arctic_admin) — SCSS
-  structure (variables → mixins → layouts → components → pages).
-- [PrimeReact Verona](https://verona.primereact.org/) — visual language
-  (layout proportions, rounded cards, float labels, filter chips).
 
 ## License
 
