@@ -55,7 +55,7 @@ the whole app.
 1. Add to your `Gemfile`:
 
    ```ruby
-   gem "fuji_admin", "~> 0.1"
+   gem "fuji_admin", "~> 1.0"
    ```
 
    ```bash
