@@ -35,12 +35,10 @@ language).
 
 ## Installation
 
-### From GitHub (recommended)
-
 In your host app's `Gemfile`:
 
 ```ruby
-gem "fuji_admin", github: "BarbaricCorgi/fuji_admin"
+gem "fuji_admin", "~> 0.1"
 ```
 
 Then:
@@ -48,9 +46,6 @@ Then:
 ```bash
 bundle install
 ```
-
-The Gemfile.lock pins the exact commit SHA, so CI / Docker / Kamal builds
-are reproducible without needing to publish to RubyGems.
 
 ### Asset imports
 
@@ -96,15 +91,28 @@ Clone both repos side-by-side:
   └── my_admin_app/
 ```
 
-Point the host's `Gemfile` at the github source (as above), then tell
-Bundler to resolve it locally so edits in `fuji_admin/` reflect immediately:
+Bundler's `bundle config local.<gem>` override only works when the host's
+Gemfile references a git source, not a published RubyGem. So for live local
+editing, point the host's Gemfile at the GitHub source temporarily:
+
+```ruby
+# Host app Gemfile — during fuji_admin development
+gem "fuji_admin", github: "BarbaricCorgi/fuji_admin"
+```
+
+Then tell Bundler to resolve it against your local checkout:
 
 ```bash
 bundle config local.fuji_admin ~/development/fuji_admin
 ```
 
-This is a per-machine config stored in `~/.bundle/config` — CI and
-production never see it and fall back to the github source.
+This is a per-machine setting stored in `~/.bundle/config` — CI / Docker /
+Kamal never see it and fall back to the github source. Edits in
+`~/development/fuji_admin` reflect in the host app immediately.
+
+When you're ready to ship, flip the Gemfile back to
+`gem "fuji_admin", "~> 0.1"`, publish a new version (`gem build && gem push`),
+and run `bundle update fuji_admin` in the host.
 
 ## Customising palettes
 
