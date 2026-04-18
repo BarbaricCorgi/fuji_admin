@@ -504,7 +504,7 @@ body.active_admin #sidebar .sidebar_section.panel:not(#filters_sidebar_section) 
     right: 0;
     bottom: calc(100% + #{$space-2});
     width: 320px;
-    max-height: #{"min(70vh, 560px)"};  // interpolated so SassC emits raw CSS min()
+    max-height: 70vh;  // SassC rejects `min(70vh, 560px)` even when interpolated
     overflow-y: auto;
     background-color: $surface-0;
     border: 1px solid $surface-border;
