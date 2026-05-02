@@ -14,9 +14,15 @@ row-action dropdowns, and a live palette switcher with 30 built-in palettes.
 | --- | --- |
 | ![New record form](https://raw.githubusercontent.com/BarbaricCorgi/fuji_admin/main/docs/screenshots/screenshot-003.png) | ![Show page](https://raw.githubusercontent.com/BarbaricCorgi/fuji_admin/main/docs/screenshots/screenshot-004.png) |
 
-| Live palette switcher |
-| --- |
-| ![Palette switcher](https://raw.githubusercontent.com/BarbaricCorgi/fuji_admin/main/docs/screenshots/screenshot-005.png) |
+| Live palette switcher | Login (editorial split) |
+| --- | --- |
+| ![Palette switcher](https://raw.githubusercontent.com/BarbaricCorgi/fuji_admin/main/docs/screenshots/screenshot-005.png) | ![Login page](https://raw.githubusercontent.com/BarbaricCorgi/fuji_admin/main/docs/screenshots/screenshot-006.png) |
+
+### Mobile
+
+| Index (hamburger nav, horizontal scroll) | Row-actions dropdown | Show page (flattened panel) | Login (stacked) |
+| --- | --- | --- | --- |
+| ![Mobile index](https://raw.githubusercontent.com/BarbaricCorgi/fuji_admin/main/docs/screenshots/mobile-001.png) | ![Mobile row actions](https://raw.githubusercontent.com/BarbaricCorgi/fuji_admin/main/docs/screenshots/mobile-002.png) | ![Mobile show](https://raw.githubusercontent.com/BarbaricCorgi/fuji_admin/main/docs/screenshots/mobile-003.png) | ![Mobile login](https://raw.githubusercontent.com/BarbaricCorgi/fuji_admin/main/docs/screenshots/mobile-004.png) |
 
 ## Why fuji_admin
 

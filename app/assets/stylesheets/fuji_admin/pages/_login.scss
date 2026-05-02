@@ -1,28 +1,85 @@
-// Logged-out / login page.
+// Logged-out / login page — editorial split layout.
 //
-// Omnia (and other host apps) commonly override the devise session template
-// with a fully-branded login design (logos, backgrounds, colour palettes).
-// Rather than fight those overrides, we provide only a minimal safe baseline
-// here: center the content, kill default AA chrome, and let the host's own
-// styles define the visual card.
+// Left: full-bleed colour field painted with `--fuji-primary` and the site
+// title set as a Saira Black masthead. Right: a calm form column using
+// hairline-underline inputs and a single primary-colour CTA. The whole page
+// re-tints when the palette switcher fires, because every chrome element
+// reads from the same palette CSS variables as the rest of the theme.
 //
-// The key principle: **don't force a white card around #active_admin_content**
-// on the login page — that card will always appear as an unwanted white
-// border around a branded dark login (as with Omnia's tiger theme).
+// Devise emits the form into `#login` with formtastic markup; we don't
+// override the template, so host apps that ship their own
+// `views/active_admin/devise/sessions/new.html.erb` keep winning. To
+// override the visuals here, declare your own rules after `@import
+// "fuji_admin/base"` in `active_admin.scss` — every selector below is
+// scoped to `body.logged_out` and uses normal specificity.
 
 body.logged_out {
-  min-height: 100vh;
   margin: 0;
+  min-height: 100vh;
+  background: color-mix(in srgb, var(--fuji-surface, #f5f3ee) 92%, white);
+  color: var(--fuji-text, #1a1a1a);
+  font-family: $font-family-body;
+  position: relative;
+  overflow-x: hidden;
 
+  // ─── Left colour field (decorative, full-bleed) ──────────────────────────
+  &::before {
+    content: "";
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: 44vw;
+    background:
+      radial-gradient(120% 80% at 80% 20%,
+        color-mix(in srgb, var(--fuji-primary, #41549b) 70%, white) 0%,
+        var(--fuji-primary, #41549b) 45%,
+        color-mix(in srgb, var(--fuji-primary, #41549b) 78%, black) 100%);
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  // Subtle film-grain overlay on the colour field.
+  &::after {
+    content: "";
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: 44vw;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.55 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.5'/></svg>");
+    background-size: 220px 220px;
+    mix-blend-mode: overlay;
+    opacity: 0.18;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  // ─── Layout shell (override default flex from earlier baseline) ──────────
   #wrapper,
   #content_wrapper {
+    all: unset;
+    display: block;
+    min-height: 100vh;
+    box-sizing: border-box;
+  }
+
+  #wrapper {
+    display: grid;
+    grid-template-columns: 44vw 1fr;
+    align-items: stretch;
+  }
+
+  // Hairline magazine-style "column rule" between panels.
+  #content_wrapper {
+    grid-column: 2;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    justify-content: center;
+    padding: clamp(2rem, 5vw, 5rem) clamp(1.5rem, 6vw, 6rem);
+    position: relative;
+    z-index: 1;
+    border-left: 1px solid color-mix(in srgb, var(--fuji-primary, #41549b) 25%, transparent);
   }
 
   #active_admin_content {
-    flex: 1 1 auto;
+    flex: none;
     padding: 0;
     margin: 0;
     background: transparent;
@@ -32,46 +89,432 @@ body.logged_out {
     max-width: none;
   }
 
+  // Hide footer on logged-out pages — adds noise to the editorial layout.
+  #footer { display: none; }
+
+  // ─── Flash banner — editorial notice that spans the form column ──────────
   .flashes {
-    padding: $space-4;
-    margin: 0;
-    text-align: center;
-  }
-
-  // Neutralise fieldset legend header bar inside the login form — host
-  // stylesheets (Omnia's tiger theme etc.) expect standard input layout.
-  #login fieldset.inputs,
-  #login_form fieldset.inputs {
+    margin: 0 0 2.25rem;
     padding: 0;
-    margin: 0;
-    background: transparent;
-    border: 0;
-    border-radius: 0;
-    overflow: visible;
+    text-align: left;
+    width: 100%;
+    max-width: none;
+    align-self: stretch;
 
-    legend {
-      display: none;
+    .flash {
+      display: block;
+      width: 100%;
+      padding: 1rem 1.25rem;
+      margin: 0 0 0.6rem;
+      border: 0;
+      border-radius: 0;
+      background: color-mix(in srgb, var(--fuji-primary, #41549b) 7%, transparent);
+      border-left: 3px solid var(--fuji-primary, #41549b);
+      border-bottom: 1px solid color-mix(in srgb, var(--fuji-primary, #41549b) 18%, transparent);
+      color: var(--fuji-text, #1a1a1a);
+      font-size: 0.85rem;
+      letter-spacing: 0.01em;
+      line-height: 1.5;
+      text-align: left;
+      animation: fuji-login-fade 0.5s cubic-bezier(0.2, 0.7, 0.3, 1) both;
     }
 
-    ol {
+    .flash_alert,
+    .flash_error {
+      background: rgba(185, 67, 67, 0.08);
+      border-left-color: #b94343;
+      border-bottom-color: rgba(185, 67, 67, 0.22);
+      color: #6e2727;
+    }
+
+    .flash_notice {
+      border-left-color: var(--fuji-primary, #41549b);
+    }
+  }
+
+  // ─── #login — the form column ────────────────────────────────────────────
+  #login {
+    align-self: center;
+    width: 100%;
+    max-width: 26rem;
+    // Intentionally NOT animated — any non-`none` transform on this
+    // element would make it the containing block for the fixed-positioned
+    // h2 and ::before, breaking their viewport anchoring. Children
+    // animate themselves below.
+
+    // The site title <h2> is hoisted onto the colour field.
+    // Fixed-positioned so it shares the coordinate space of the fixed
+    // colour band on body — works the same on desktop and mobile.
+    h2 {
+      position: fixed;
+      left: clamp(1.5rem, 3.5vw, 4rem);
+      bottom: clamp(2.5rem, 6vh, 5rem);
+      max-width: calc(44vw - clamp(2rem, 5vw, 6rem));
+      margin: 0;
       padding: 0;
+      color: #fff;
+      font-family: $font-family-body;
+      font-weight: 900;
+      font-size: clamp(2.6rem, 5.4vw, 5.25rem);
+      line-height: 0.92;
+      letter-spacing: -0.035em;
+      text-wrap: balance;
+      opacity: 0.97;
+      z-index: 2;
+      pointer-events: none;
+      animation: fuji-login-masthead 0.9s cubic-bezier(0.2, 0.7, 0.3, 1) 0.15s both;
+    }
+
+    // Colour-field eyebrow rendered via ::before on #login (decorative only).
+    &::before {
+      content: "ADMIN";
+      position: fixed;
+      left: clamp(1.5rem, 3.5vw, 4rem);
+      top: clamp(2rem, 5vh, 4rem);
+      color: rgba(255, 255, 255, 0.78);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      z-index: 2;
+      animation: fuji-login-fade 0.9s cubic-bezier(0.2, 0.7, 0.3, 1) 0.05s both;
+    }
+
+    // Eyebrow above the form on the right column.
+    form::before {
+      content: "Authentication";
+      display: block;
+      margin: 0 0 1.75rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--fuji-text-muted, #8a8a8a);
+      animation: fuji-login-rise 0.7s cubic-bezier(0.2, 0.7, 0.3, 1) 0.1s both;
+    }
+
+    // Forgot password link sits at the bottom of the column.
+    > a {
+      display: inline-block;
+      margin-top: 1.25rem;
+      font-size: 0.74rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--fuji-text-muted, #8a8a8a);
+      text-decoration: none;
+      border-bottom: 1px dotted color-mix(in srgb, var(--fuji-text-muted, #8a8a8a) 60%, transparent);
+      padding-bottom: 2px;
+      transition: color 0.2s ease, border-color 0.2s ease;
+
+      &:hover {
+        color: var(--fuji-primary, #41549b);
+        border-bottom-color: var(--fuji-primary, #41549b);
+      }
+    }
+
+    > br { display: none; }
+  }
+
+  // ─── Form fields — hairline underline aesthetic ──────────────────────────
+  #login form {
+    margin: 0;
+
+    fieldset.inputs,
+    fieldset.actions {
+      all: unset;
+      display: block;
+      margin: 0;
+      padding: 0;
+      background: transparent;
+      border: 0;
+
+      legend { display: none; }
+    }
+
+    fieldset.inputs > ol {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    li.input {
+      display: block;
+      position: relative;
+      margin: 0 0 1.6rem;
+      padding: 0;
+      background: transparent;
+      animation: fuji-login-rise 0.6s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+
+      &.email    { animation-delay: 0.18s; }
+      &.password { animation-delay: 0.26s; }
+      &.boolean  { animation-delay: 0.34s; }
+
+      // Label sits above the input as a small-caps eyebrow.
+      > label.label {
+        display: block;
+        margin: 0 0 0.35rem;
+        padding: 0;
+        font-size: 0.7rem;
+        font-weight: 600;
+        letter-spacing: 0.22em;
+        text-transform: uppercase;
+        color: var(--fuji-text-muted, #8a8a8a);
+        background: transparent;
+        position: static;
+        transition: color 0.2s ease;
+
+        abbr {
+          display: none; // suppress the red asterisk; required is implicit
+        }
+      }
+
+      // Hairline-underline text input.
+      > input[type="email"],
+      > input[type="text"],
+      > input[type="password"] {
+        all: unset;
+        box-sizing: border-box;
+        display: block;
+        width: 100%;
+        padding: 0.55rem 0 0.6rem;
+        border: 0;
+        border-bottom: 1px solid color-mix(in srgb, var(--fuji-text, #1a1a1a) 22%, transparent);
+        border-radius: 0;
+        background: transparent;
+        color: var(--fuji-text, #1a1a1a);
+        font-family: $font-family-body;
+        font-size: 1.02rem;
+        font-weight: 400;
+        letter-spacing: 0.005em;
+        transition: border-color 0.25s ease;
+
+        &::placeholder { color: transparent; }
+
+        &:hover { border-bottom-color: color-mix(in srgb, var(--fuji-text, #1a1a1a) 45%, transparent); }
+
+        &:focus {
+          outline: none;
+          border-bottom-color: var(--fuji-primary, #41549b);
+        }
+      }
+
+      // Animated underline thickener — bar that grows from centre on focus.
+      &.email::after,
+      &.password::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: 0;
+        width: 0;
+        height: 2px;
+        background: var(--fuji-primary, #41549b);
+        transition: width 0.35s cubic-bezier(0.2, 0.7, 0.3, 1),
+                    left  0.35s cubic-bezier(0.2, 0.7, 0.3, 1);
+      }
+
+      &.email:focus-within::after,
+      &.password:focus-within::after {
+        width: 100%;
+        left: 0;
+      }
+
+      // Raise the label colour when the field is focused.
+      &:focus-within > label.label {
+        color: var(--fuji-primary, #41549b);
+      }
+    }
+
+    // ── Remember me — custom-painted square checkbox ────────────────────
+    li.boolean {
+      display: flex;
+      align-items: center;
+      margin-top: 1.8rem;
+
+      > label {
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        font-size: 0.78rem;
+        font-weight: 500;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        color: var(--fuji-text-muted, #8a8a8a);
+        cursor: pointer;
+        user-select: none;
+
+        > input[type="checkbox"] {
+          appearance: none;
+          -webkit-appearance: none;
+          width: 1rem;
+          height: 1rem;
+          margin: 0;
+          border: 1px solid color-mix(in srgb, var(--fuji-text, #1a1a1a) 35%, transparent);
+          background: transparent;
+          border-radius: 2px;
+          position: relative;
+          cursor: pointer;
+          transition: border-color 0.18s ease, background 0.18s ease;
+
+          &:hover { border-color: var(--fuji-primary, #41549b); }
+
+          &:checked {
+            background: var(--fuji-primary, #41549b);
+            border-color: var(--fuji-primary, #41549b);
+
+            &::after {
+              content: "";
+              position: absolute;
+              left: 3px;
+              top: -1px;
+              width: 5px;
+              height: 9px;
+              border: solid #fff;
+              border-width: 0 2px 2px 0;
+              transform: rotate(45deg);
+            }
+          }
+
+          &:focus-visible {
+            outline: 2px solid color-mix(in srgb, var(--fuji-primary, #41549b) 50%, transparent);
+            outline-offset: 2px;
+          }
+        }
+      }
+    }
+
+    // ── Submit button — full-width caps wordmark CTA ────────────────────
+    fieldset.actions {
+      margin-top: 2.25rem;
+      animation: fuji-login-rise 0.6s cubic-bezier(0.2, 0.7, 0.3, 1) 0.42s both;
+
+      // Override _inputs.scss which makes this ol/li flex (button-row layout
+      // for normal CRUD pages). The login button is single and full-width.
+      ol {
+        display: block;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+      }
+
+      li.action {
+        display: block;
+        margin: 0;
+        padding: 0;
+      }
+
+      input[type="submit"] {
+        all: unset;
+        box-sizing: border-box;
+        display: block;
+        width: 100%;
+        padding: 1.05rem 1.5rem;
+        background: var(--fuji-primary, #41549b);
+        color: #fff;
+        font-family: $font-family-body;
+        font-size: 0.82rem;
+        font-weight: 700;
+        letter-spacing: 0.24em;
+        text-transform: uppercase;
+        text-align: center;
+        cursor: pointer;
+        border-radius: 2px;
+        box-shadow: 0 1px 0 color-mix(in srgb, var(--fuji-primary, #41549b) 60%, black);
+        transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+
+        &:hover {
+          transform: translateY(-1px);
+          background: color-mix(in srgb, var(--fuji-primary, #41549b) 88%, black);
+          box-shadow: 0 6px 18px -8px color-mix(in srgb, var(--fuji-primary, #41549b) 75%, transparent);
+        }
+
+        &:active { transform: translateY(0); }
+
+        &:focus-visible {
+          outline: 2px solid color-mix(in srgb, var(--fuji-primary, #41549b) 60%, white);
+          outline-offset: 3px;
+        }
+      }
     }
   }
 
-  // Neutralise float labels inside the login form — the custom template
-  // renders its own label treatment; overlaying our floating labels produces
-  // duplicated / misaligned text.
-  #login .fuji-float > label,
-  #login_form .fuji-float > label {
-    position: static;
-    top: auto;
-    left: auto;
-    padding: 0;
-    margin: 0 0 $space-2;
-    background: transparent;
-    pointer-events: auto;
-    font-size: inherit;
-    color: inherit;
-    transition: none;
+  // ─── Mobile — stack the colour field on top ──────────────────────────────
+  @media (max-width: 760px) {
+    overflow-x: hidden;
+
+    // Colour band shrinks to a top region (not full-bleed left).
+    $band-h: clamp(15rem, 32vh, 20rem);
+
+    &::before,
+    &::after {
+      position: fixed;
+      inset: 0 0 auto 0;
+      width: 100%;
+      height: $band-h;
+    }
+
+    #wrapper {
+      display: block;
+      min-height: 100vh;
+      padding-top: $band-h;
+      box-sizing: border-box;
+    }
+
+    #content_wrapper {
+      grid-column: auto;
+      justify-content: flex-start;
+      padding: 2.5rem 1.5rem 3rem;
+      border-left: 0;
+      min-height: auto;
+    }
+
+    #login {
+      max-width: 22rem;
+      margin: 0 auto;
+
+      h2 {
+        // Wordmark sits inside the colour band with generous breathing
+        // room between its baseline and the band's bottom edge.
+        left: 1.5rem;
+        bottom: auto;
+        top: calc(#{$band-h} - 4.5rem);
+        transform: translateY(-100%);
+        max-width: calc(100% - 3rem);
+        font-size: clamp(1.85rem, 8.5vw, 2.6rem);
+      }
+
+      &::before {
+        left: 1.5rem;
+        top: 1.75rem;
+      }
+    }
+
+    .flashes { padding: 0 1.5rem; }
   }
+
+  // ─── Reduced-motion ──────────────────────────────────────────────────────
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation: none !important;
+      transition: none !important;
+    }
+  }
+}
+
+// ─── Keyframes ─────────────────────────────────────────────────────────────
+@keyframes fuji-login-rise {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fuji-login-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes fuji-login-masthead {
+  from { opacity: 0; transform: translate(-12px, 50%); }
+  to   { opacity: 0.97; transform: translate(0, 50%); }
 }

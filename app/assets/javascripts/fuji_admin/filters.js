@@ -83,12 +83,27 @@
     else openDrawer();
   }
 
+  // Track where the mousedown happened so we can distinguish a real
+  // outside-click from a text selection whose drag ends on the backdrop.
+  // Without this, selecting text inside an input and releasing the mouse
+  // over the greyed area fires a click on the backdrop and closes the
+  // drawer mid-interaction.
+  var mouseDownTarget = null;
+
+  function onDocumentMouseDown(e) {
+    mouseDownTarget = e.target;
+  }
+
+  function isInside(container, el) {
+    return container && el && container.contains(el);
+  }
+
   function onDocumentClick(e) {
     if (!document.body.classList.contains(BODY_OPEN_CLASS)) return;
     var sb = sidebar();
-    if (sb && sb.contains(e.target)) return;
+    if (isInside(sb, e.target) || isInside(sb, mouseDownTarget)) return;
     var t = toggleBtn();
-    if (t && t.contains(e.target)) return;
+    if (isInside(t, e.target) || isInside(t, mouseDownTarget)) return;
     closeDrawer();
   }
 
@@ -266,6 +281,8 @@
       closeX.addEventListener("click", closeDrawer);
     }
 
+    document.removeEventListener("mousedown", onDocumentMouseDown);
+    document.addEventListener("mousedown", onDocumentMouseDown);
     document.removeEventListener("click", onDocumentClick);
     document.addEventListener("click", onDocumentClick);
     document.removeEventListener("keydown", onKey);
