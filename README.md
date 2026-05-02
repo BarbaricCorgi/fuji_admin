@@ -4,6 +4,20 @@ A responsive, modern theme for [ActiveAdmin](https://github.com/activeadmin/acti
 Clean card-based layout, slide-in filter drawer, float-label inputs,
 row-action dropdowns, and a live palette switcher with 30 built-in palettes.
 
+## Screenshots
+
+| Index page (Editorial Navy) | Filter drawer |
+| --- | --- |
+| ![Index page](https://raw.githubusercontent.com/BarbaricCorgi/fuji_admin/main/docs/screenshots/screenshot-001.png) | ![Filter drawer](https://raw.githubusercontent.com/BarbaricCorgi/fuji_admin/main/docs/screenshots/screenshot-002.png) |
+
+| New record form with float labels & date picker | Show page |
+| --- | --- |
+| ![New record form](https://raw.githubusercontent.com/BarbaricCorgi/fuji_admin/main/docs/screenshots/screenshot-003.png) | ![Show page](https://raw.githubusercontent.com/BarbaricCorgi/fuji_admin/main/docs/screenshots/screenshot-004.png) |
+
+| Live palette switcher |
+| --- |
+| ![Palette switcher](https://raw.githubusercontent.com/BarbaricCorgi/fuji_admin/main/docs/screenshots/screenshot-005.png) |
+
 ## Why fuji_admin
 
 Fuji Admin drops onto an existing ActiveAdmin app without touching a single

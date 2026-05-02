@@ -1,5 +1,6 @@
 require "fuji_admin/version"
 require "fuji_admin/configuration"
+require "fuji_admin/meta_tags"
 
 module FujiAdmin
   class << self
@@ -16,11 +17,11 @@ module FujiAdmin
 
   module Rails
     class Engine < ::Rails::Engine
-      # Register meta tags after all initializers have run (so both
-      # FujiAdmin.configure and ActiveAdmin.setup have populated their state)
-      # and AA's namespaces are available to iterate.
+      # Subscribe to AA's namespace-creation notification so each namespace
+      # picks up our meta tags the moment it's born. Safe to register at
+      # `after_initialize` — the subscription fires later, when namespaces
+      # actually load (lazily, on first request).
       config.after_initialize do
-        require "fuji_admin/active_admin_patch"
         FujiAdmin.install_meta_tags!
       end
     end
